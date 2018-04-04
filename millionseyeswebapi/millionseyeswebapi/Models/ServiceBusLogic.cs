@@ -2,7 +2,6 @@
 using Microsoft.Rest.Azure.Authentication;
 using MillionsEyesWebApi.Models.JsonDeserializeClasses;
 using MillionsEyesWebApi.Models.MetricViewClasses;
-using MillionsEyesWebApi.Properties;
 using Newtonsoft.Json;
 using ServiceStack.Text;
 using System;
