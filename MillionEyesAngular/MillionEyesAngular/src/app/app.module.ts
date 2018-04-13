@@ -10,6 +10,8 @@ import { HttpModule } from '@angular/http';
 import { MyDateRangePickerModule } from 'mydaterangepicker';
 import { MetricsService } from './shared/metrics.service';
 
+import {MatTabsModule} from '@angular/material/tabs'
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [
@@ -21,7 +23,9 @@ import { MetricsService } from './shared/metrics.service';
     AppRoutingModule,    
     FormsModule,
     HttpModule,
-    MyDateRangePickerModule
+    MyDateRangePickerModule,
+    MatTabsModule,
+    BrowserAnimationsModule
   ],
   providers: [MetricsService],
   bootstrap: [AppComponent]

@@ -363,3 +363,5 @@ D:\GitHub\MillionEyes\MillionsEyes\millionseyeswebapi\MillionsEyesWebApi\obj\Deb
 D:\GitHub\MillionEyes\MillionsEyes\millionseyeswebapi\MillionsEyesWebApi\obj\Debug\MillionsEyesWebApi.csproj.CoreCompileInputs.cache
 D:\GitHub\MillionEyes\MillionsEyes\millionseyeswebapi\MillionsEyesWebApi\obj\Debug\MillionsEyesWebApi.dll
 D:\GitHub\MillionEyes\MillionsEyes\millionseyeswebapi\MillionsEyesWebApi\obj\Debug\MillionsEyesWebApi.pdb
+D:\GitHub\MillionEyes\MillionsEyes\millionseyeswebapi\MillionsEyesWebApi\bin\Autofac.dll
+D:\GitHub\MillionEyes\MillionsEyes\millionseyeswebapi\MillionsEyesWebApi\bin\Autofac.xml
