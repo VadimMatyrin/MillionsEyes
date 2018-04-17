@@ -1,26 +1,26 @@
-﻿using Microsoft.Azure.Management.Monitor;
+﻿using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using Microsoft.Azure.Management.Monitor;
 using Microsoft.Rest.Azure.Authentication;
 using MillionsEyesWebApi.Models.JsonDeserializeClasses;
 using MillionsEyesWebApi.Models.MetricViewClasses;
 using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 
 using static MillionsEyesWebApi.Properties.Settings;
 
-namespace MillionsEyesWebApi.Models
+namespace MillionsEyesWebApi.Repositories
 {
-    public class ServiceBusLogic
+    public class ServiceBusMetricsRepository : IServiceBusMetricsRepository
     {
-        public static ServiceBusViewModel GetSingleMetricResult(string metricName, DateTime startTime, DateTime finishTime, double interval)
+        public ServiceBusViewModel GetSingleMetricResult(string metricName, DateTime startTime, DateTime finishTime, double interval)
         {
             var jsonResult = GetJsonResult(metricName: metricName, startTime: startTime, finishTime: finishTime, interval: interval);
             var viewModel = ConvertJsonToViewModel(json: jsonResult);
             return viewModel;
         }
 
-        public static List<ServiceBusViewModel> GetMetricsResult(DateTime startTime, DateTime finishTime, double interval)
+        public List<ServiceBusViewModel> GetMetricsResult(DateTime startTime, DateTime finishTime, double interval)
         {
             List<ServiceBusViewModel> result = new List<ServiceBusViewModel>();
 
@@ -32,7 +32,7 @@ namespace MillionsEyesWebApi.Models
             return result;
         }
 
-        private static string GetJsonResult(string metricName, DateTime startTime, DateTime finishTime, double interval)
+        private string GetJsonResult(string metricName, DateTime startTime, DateTime finishTime, double interval)
         {
             var resourceId = $"subscriptions/{Default.SubscriptionId}/resourceGroups/{Default.ResourseGroupName}/providers/Microsoft.ServiceBus/namespaces/{Default.ServiceBusName}";
 
@@ -53,7 +53,7 @@ namespace MillionsEyesWebApi.Models
             return jsonResult;
         }
 
-        private static async Task<MonitorClient> Authenticate(string tenantId, string clientId, string secret, string subscriptionId)
+        private async Task<MonitorClient> Authenticate(string tenantId, string clientId, string secret, string subscriptionId)
         {
             var serviceCreds = await ApplicationTokenProvider.LoginSilentAsync(domain: tenantId, clientId: clientId, secret: secret);
             var monitorClient = new MonitorClient(credentials: serviceCreds)
@@ -64,7 +64,7 @@ namespace MillionsEyesWebApi.Models
             return monitorClient;
         }
 
-        private static ServiceBusViewModel ConvertJsonToViewModel(string json)
+        private ServiceBusViewModel ConvertJsonToViewModel(string json)
         {
             var root = JsonConvert.DeserializeObject<RootObject>(value: json);
 

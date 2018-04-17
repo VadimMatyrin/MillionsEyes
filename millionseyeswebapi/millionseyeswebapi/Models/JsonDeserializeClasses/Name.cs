@@ -7,7 +7,7 @@ namespace MillionsEyesWebApi.Models.JsonDeserializeClasses
 {
     public class Name
     {
-        public string value { get; set; }
-        public string localizedValue { get; set; }
+        public string Value { get; set; }
+        public string LocalizedValue { get; set; }
     }
 }

@@ -7,10 +7,10 @@ namespace MillionsEyesWebApi.Models.JsonDeserializeClasses
 {
     public class Value
     {
-        public string id { get; set; }
-        public string type { get; set; }
-        public Name name { get; set; }
-        public string unit { get; set; }
-        public List<Timesery> timeseries { get; set; }
+        public string Id { get; set; }
+        public string Type { get; set; }
+        public Name Name { get; set; }
+        public string Unit { get; set; }
+        public List<Timesery> Timeseries { get; set; }
     }
 }

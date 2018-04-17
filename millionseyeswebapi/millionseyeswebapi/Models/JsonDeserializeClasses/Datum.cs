@@ -1,17 +1,14 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 
 namespace MillionsEyesWebApi.Models.JsonDeserializeClasses
 {
     public class Datum
     {
-        public DateTime timeStamp { get; set; }
-        public object average { get; set; }
-        public object minimum { get; set; }
-        public object maximum { get; set; }
-        public double total { get; set; }
-        public object count { get; set; }
+        public DateTime TimeStamp { get; set; }
+        public object Average { get; set; }
+        public object Minimum { get; set; }
+        public object Maximum { get; set; }
+        public double Total { get; set; }
+        public object Count { get; set; }
     }
 }

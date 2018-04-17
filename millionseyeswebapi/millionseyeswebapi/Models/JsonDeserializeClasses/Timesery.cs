@@ -7,7 +7,7 @@ namespace MillionsEyesWebApi.Models.JsonDeserializeClasses
 {
     public class Timesery
     {
-        public List<object> metadatavalues { get; set; }
-        public List<Datum> data { get; set; }
+        public List<object> Metadatavalues { get; set; }
+        public List<Datum> Data { get; set; }
     }
 }

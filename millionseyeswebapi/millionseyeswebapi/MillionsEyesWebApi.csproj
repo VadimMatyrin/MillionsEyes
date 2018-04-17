@@ -226,6 +226,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Interfaces\IServiceBusMetricsRepository.cs" />
     <Compile Include="Models\JsonDeserializeClasses\Datum.cs" />
     <Compile Include="Models\JsonDeserializeClasses\Name.cs" />
     <Compile Include="Models\JsonDeserializeClasses\RootObject.cs" />
@@ -240,6 +241,7 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
+    <Compile Include="Repositories\ServiceBusMetricsRepository.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Areas\HelpPage\HelpPage.css" />

@@ -14,10 +14,10 @@ namespace MillionsEyesWebApi
         protected void Application_Start()
         {
             AreaRegistration.RegisterAllAreas();
-            GlobalConfiguration.Configure(WebApiConfig.Register);
-            FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
-            RouteConfig.RegisterRoutes(RouteTable.Routes);
-            BundleConfig.RegisterBundles(BundleTable.Bundles);
+            GlobalConfiguration.Configure(configurationCallback: WebApiConfig.Register);
+            FilterConfig.RegisterGlobalFilters(filters: GlobalFilters.Filters);
+            RouteConfig.RegisterRoutes(routes: RouteTable.Routes);
+            BundleConfig.RegisterBundles(bundles: BundleTable.Bundles);
         }
     }
 }

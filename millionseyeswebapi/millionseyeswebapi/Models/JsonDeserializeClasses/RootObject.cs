@@ -7,9 +7,9 @@ namespace MillionsEyesWebApi.Models.JsonDeserializeClasses
 {
     public class RootObject
     {
-        public double cost { get; set; }
-        public string timespan { get; set; }
-        public string interval { get; set; }
-        public List<Value> value { get; set; }
+        public double Cost { get; set; }
+        public string Timespan { get; set; }
+        public string Interval { get; set; }
+        public List<Value> Value { get; set; }
     }
 }
