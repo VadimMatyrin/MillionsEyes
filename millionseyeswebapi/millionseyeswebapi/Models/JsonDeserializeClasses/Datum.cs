@@ -1,14 +1,14 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 
 namespace MillionsEyesWebApi.Models.JsonDeserializeClasses
 {
     public class Datum
     {
+        [JsonProperty("timeStamp")]
         public DateTime TimeStamp { get; set; }
-        public object Average { get; set; }
-        public object Minimum { get; set; }
-        public object Maximum { get; set; }
-        public double Total { get; set; }
-        public object Count { get; set; }
+
+        [JsonProperty("total")]
+        public long Total { get; set; }
     }
 }

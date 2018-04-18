@@ -1,8 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using Autofac;
+using Autofac.Integration.WebApi;
+using MillionsEyesWebApi.Helpers;
+using MillionsEyesWebApi.Interfaces;
+using MillionsEyesWebApi.Models;
+using MillionsEyesWebApi.Repositories;
+using MillionsEyesWebApi.Repository;
 using System.Web.Http;
-using System.Web.Http.Cors;
 
 namespace MillionsEyesWebApi
 {
@@ -11,6 +14,16 @@ namespace MillionsEyesWebApi
         public static void Register(HttpConfiguration config)
         {
             // Web API configuration and services
+
+            var builder = new ContainerBuilder();
+            builder.RegisterInstance<IServiceBusMetricsRepository>(new ServiceBusMetricsRepository());
+            builder.RegisterInstance<IHttpClientHelper>(new HttpClientHelper());
+            builder.RegisterInstance<IQueuesMetricRepository>(new QueuesMetricRepository());
+
+            var container = builder.Build();
+            var resolver = new AutofacWebApiDependencyResolver(container);
+            config.DependencyResolver = resolver;
+
 
             // Web API routes
             config.MapHttpAttributeRoutes();

@@ -7,9 +7,10 @@ using MillionsEyesWebApi.Models.MetricViewClasses;
 
 namespace MillionsEyesWebApi
 {
-    interface IServiceBusMetricsRepository
+    public interface IServiceBusMetricsRepository
     {
         ServiceBusViewModel GetSingleMetricResult(string metricName, DateTime startTime, DateTime finishTime, double interval);
+
         List<ServiceBusViewModel> GetMetricsResult(DateTime startTime, DateTime finishTime, double interval);
     }
 }

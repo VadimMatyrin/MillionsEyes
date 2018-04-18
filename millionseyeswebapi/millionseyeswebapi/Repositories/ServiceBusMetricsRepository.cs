@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.Azure.Management.Monitor;
 using Microsoft.Rest.Azure.Authentication;
+using MillionsEyesWebApi.Models;
 using MillionsEyesWebApi.Models.JsonDeserializeClasses;
 using MillionsEyesWebApi.Models.MetricViewClasses;
 using Newtonsoft.Json;
@@ -66,7 +67,7 @@ namespace MillionsEyesWebApi.Repositories
 
         private ServiceBusViewModel ConvertJsonToViewModel(string json)
         {
-            var root = JsonConvert.DeserializeObject<RootObject>(value: json);
+            var root = JsonConvert.DeserializeObject<IncomingMetrics>(value: json);
 
             ServiceBusViewModel viewModel = new ServiceBusViewModel
             {

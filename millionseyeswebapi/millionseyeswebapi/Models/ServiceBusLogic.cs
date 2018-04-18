@@ -66,7 +66,7 @@ namespace MillionsEyesWebApi.Models
 
         private static ServiceBusViewModel ConvertJsonToViewModel(string json)
         {
-            var root = JsonConvert.DeserializeObject<RootObject>(value: json);
+            var root = JsonConvert.DeserializeObject<IncomingMetrics>(value: json);
 
             ServiceBusViewModel viewModel = new ServiceBusViewModel
             {
