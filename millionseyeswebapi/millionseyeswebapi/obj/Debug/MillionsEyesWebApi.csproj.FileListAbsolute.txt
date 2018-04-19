@@ -373,7 +373,6 @@ D:\GitRepository\MillionsEyes\millionseyeswebapi\MillionsEyesWebApi\bin\Millions
 D:\GitRepository\MillionsEyes\millionseyeswebapi\MillionsEyesWebApi\bin\MillionsEyesWebApi.dll
 D:\GitRepository\MillionsEyes\millionseyeswebapi\MillionsEyesWebApi\bin\MillionsEyesWebApi.pdb
 D:\GitRepository\MillionsEyes\millionseyeswebapi\MillionsEyesWebApi\bin\Antlr3.Runtime.dll
-D:\GitRepository\MillionsEyes\millionseyeswebapi\MillionsEyesWebApi\bin\Autofac.dll
 D:\GitRepository\MillionsEyes\millionseyeswebapi\MillionsEyesWebApi\bin\Microsoft.AI.Agent.Intercept.dll
 D:\GitRepository\MillionsEyes\millionseyeswebapi\MillionsEyesWebApi\bin\Microsoft.AI.DependencyCollector.dll
 D:\GitRepository\MillionsEyes\millionseyeswebapi\MillionsEyesWebApi\bin\Microsoft.AI.PerfCounterCollector.dll
@@ -408,7 +407,6 @@ D:\GitRepository\MillionsEyes\millionseyeswebapi\MillionsEyesWebApi\bin\System.W
 D:\GitRepository\MillionsEyes\millionseyeswebapi\MillionsEyesWebApi\bin\System.Web.WebPages.dll
 D:\GitRepository\MillionsEyes\millionseyeswebapi\MillionsEyesWebApi\bin\System.Web.WebPages.Razor.dll
 D:\GitRepository\MillionsEyes\millionseyeswebapi\MillionsEyesWebApi\bin\WebGrease.dll
-D:\GitRepository\MillionsEyes\millionseyeswebapi\MillionsEyesWebApi\bin\Autofac.xml
 D:\GitRepository\MillionsEyes\millionseyeswebapi\MillionsEyesWebApi\bin\Microsoft.Azure.Management.Monitor.xml
 D:\GitRepository\MillionsEyes\millionseyeswebapi\MillionsEyesWebApi\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
 D:\GitRepository\MillionsEyes\millionseyeswebapi\MillionsEyesWebApi\bin\Microsoft.IdentityModel.Clients.ActiveDirectory.xml
@@ -440,13 +438,13 @@ D:\GitRepository\MillionsEyes\millionseyeswebapi\MillionsEyesWebApi\bin\Microsof
 D:\GitRepository\MillionsEyes\millionseyeswebapi\MillionsEyesWebApi\bin\Microsoft.AI.WindowsServer.xml
 D:\GitRepository\MillionsEyes\millionseyeswebapi\MillionsEyesWebApi\bin\Microsoft.AI.Web.xml
 D:\GitRepository\MillionsEyes\millionseyeswebapi\MillionsEyesWebApi\obj\Debug\MillionsEyesWebApi.csproj.CopyComplete
-D:\GitRepository\MillionsEyes\millionseyeswebapi\MillionsEyesWebApi\bin\Autofac.Configuration.dll
-D:\GitRepository\MillionsEyes\millionseyeswebapi\MillionsEyesWebApi\bin\Autofac.Integration.WebApi.dll
 D:\GitRepository\MillionsEyes\millionseyeswebapi\MillionsEyesWebApi\bin\Microsoft.Extensions.Configuration.Abstractions.dll
 D:\GitRepository\MillionsEyes\millionseyeswebapi\MillionsEyesWebApi\bin\Microsoft.Extensions.Configuration.dll
 D:\GitRepository\MillionsEyes\millionseyeswebapi\MillionsEyesWebApi\bin\Microsoft.Extensions.Primitives.dll
-D:\GitRepository\MillionsEyes\millionseyeswebapi\MillionsEyesWebApi\bin\Autofac.Configuration.xml
-D:\GitRepository\MillionsEyes\millionseyeswebapi\MillionsEyesWebApi\bin\Autofac.Integration.WebApi.xml
 D:\GitRepository\MillionsEyes\millionseyeswebapi\MillionsEyesWebApi\bin\Microsoft.Extensions.Configuration.xml
 D:\GitRepository\MillionsEyes\millionseyeswebapi\MillionsEyesWebApi\bin\Microsoft.Extensions.Configuration.Abstractions.xml
 D:\GitRepository\MillionsEyes\millionseyeswebapi\MillionsEyesWebApi\bin\Microsoft.Extensions.Primitives.xml
+D:\GitRepository\MillionsEyes\millionseyeswebapi\MillionsEyesWebApi\bin\Unity.Abstractions.dll
+D:\GitRepository\MillionsEyes\millionseyeswebapi\MillionsEyesWebApi\bin\Unity.AspNet.WebApi.dll
+D:\GitRepository\MillionsEyes\millionseyeswebapi\MillionsEyesWebApi\bin\Unity.Container.dll
+D:\GitRepository\MillionsEyes\millionseyeswebapi\MillionsEyesWebApi\bin\WebActivatorEx.dll
