@@ -363,7 +363,6 @@ D:\GitHub\MillionEyes\MillionsEyes\millionseyeswebapi\MillionsEyesWebApi\obj\Deb
 D:\GitHub\MillionEyes\MillionsEyes\millionseyeswebapi\MillionsEyesWebApi\obj\Debug\MillionsEyesWebApi.csproj.CoreCompileInputs.cache
 D:\GitHub\MillionEyes\MillionsEyes\millionseyeswebapi\MillionsEyesWebApi\obj\Debug\MillionsEyesWebApi.dll
 D:\GitHub\MillionEyes\MillionsEyes\millionseyeswebapi\MillionsEyesWebApi\obj\Debug\MillionsEyesWebApi.pdb
-D:\GitHub\MillionEyes\MillionsEyes\millionseyeswebapi\MillionsEyesWebApi\bin\Autofac.xml
 D:\GitRepository\MillionsEyes\millionseyeswebapi\MillionsEyesWebApi\obj\Debug\MillionsEyesWebApi.csprojResolveAssemblyReference.cache
 D:\GitRepository\MillionsEyes\millionseyeswebapi\MillionsEyesWebApi\obj\Debug\MillionsEyesWebApi.csproj.CoreCompileInputs.cache
 D:\GitRepository\MillionsEyes\millionseyeswebapi\MillionsEyesWebApi\obj\Debug\MillionsEyesWebApi.dll
@@ -448,4 +447,8 @@ D:\GitRepository\MillionsEyes\millionseyeswebapi\MillionsEyesWebApi\bin\Unity.Ab
 D:\GitRepository\MillionsEyes\millionseyeswebapi\MillionsEyesWebApi\bin\Unity.AspNet.WebApi.dll
 D:\GitRepository\MillionsEyes\millionseyeswebapi\MillionsEyesWebApi\bin\Unity.Container.dll
 D:\GitRepository\MillionsEyes\millionseyeswebapi\MillionsEyesWebApi\bin\WebActivatorEx.dll
+D:\GitHub\MillionEyes\MillionsEyes\millionseyeswebapi\MillionsEyesWebApi\bin\Unity.Abstractions.dll
+D:\GitHub\MillionEyes\MillionsEyes\millionseyeswebapi\MillionsEyesWebApi\bin\Unity.AspNet.WebApi.dll
+D:\GitHub\MillionEyes\MillionsEyes\millionseyeswebapi\MillionsEyesWebApi\bin\Unity.Container.dll
+D:\GitHub\MillionEyes\MillionsEyes\millionseyeswebapi\MillionsEyesWebApi\bin\WebActivatorEx.dll
 D:\GitRepository\MillionsEyes\millionseyeswebapi\MillionsEyesWebApi\bin\Swashbuckle.Core.dll

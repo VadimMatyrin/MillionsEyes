@@ -286,7 +286,3 @@ __pycache__/
 *.btm.cs
 *.odx.cs
 *.xsd.cs
-
-/MillionsEyes/millionseyeswebapi/packages/Autofac.4.7.1
-/MillionsEyes/millionseyeswebapi/packages/Autofac.Configuration.4.0.1
-/MillionsEyes/millionseyeswebapi/packages/Autofac.WebApi2.4.1.0

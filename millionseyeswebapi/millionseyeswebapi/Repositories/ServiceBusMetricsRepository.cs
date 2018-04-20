@@ -16,8 +16,8 @@ namespace MillionsEyesWebApi.Repositories
     {
         public ServiceBusViewModel GetSingleMetricResult(string metricName, DateTime startTime, DateTime finishTime, double interval)
         {
-            var jsonResult = GetJsonResult(metricName: metricName, startTime: startTime, finishTime: finishTime, interval: interval);
-            var viewModel = ConvertJsonToViewModel(json: jsonResult);
+            var jsonResult = getJsonResult(metricName: metricName, startTime: startTime, finishTime: finishTime, interval: interval);
+            var viewModel = convertJsonToViewModel(json: jsonResult);
             return viewModel;
         }
 
@@ -33,11 +33,11 @@ namespace MillionsEyesWebApi.Repositories
             return result;
         }
 
-        private string GetJsonResult(string metricName, DateTime startTime, DateTime finishTime, double interval)
+        private string getJsonResult(string metricName, DateTime startTime, DateTime finishTime, double interval)
         {
             var resourceId = $"subscriptions/{Default.SubscriptionId}/resourceGroups/{Default.ResourseGroupName}/providers/Microsoft.ServiceBus/namespaces/{Default.ServiceBusName}";
 
-            var metricsClient = Authenticate(tenantId: Default.TenantId, clientId: Default.ClientId, secret: Default.Secret, subscriptionId: Default.SubscriptionId).Result;
+            var metricsClient = authenticate(tenantId: Default.TenantId, clientId: Default.ClientId, secret: Default.Secret, subscriptionId: Default.SubscriptionId).Result;
 
             //var metricDefinitions = metricsClient.MetricDefinitions.ListAsync(resourceId).Result;
             //metricDefinitions.Select(x => new { x.Name.Value, x.Unit }).Dump();
@@ -54,7 +54,7 @@ namespace MillionsEyesWebApi.Repositories
             return jsonResult;
         }
 
-        private async Task<MonitorClient> Authenticate(string tenantId, string clientId, string secret, string subscriptionId)
+        private async Task<MonitorClient> authenticate(string tenantId, string clientId, string secret, string subscriptionId)
         {
             var serviceCreds = await ApplicationTokenProvider.LoginSilentAsync(domain: tenantId, clientId: clientId, secret: secret);
             var monitorClient = new MonitorClient(credentials: serviceCreds)
@@ -65,7 +65,7 @@ namespace MillionsEyesWebApi.Repositories
             return monitorClient;
         }
 
-        private ServiceBusViewModel ConvertJsonToViewModel(string json)
+        private ServiceBusViewModel convertJsonToViewModel(string json)
         {
             var root = JsonConvert.DeserializeObject<IncomingMetrics>(value: json);
 
