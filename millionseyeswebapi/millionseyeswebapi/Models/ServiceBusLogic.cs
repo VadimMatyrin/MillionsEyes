@@ -15,8 +15,8 @@ namespace MillionsEyesWebApi.Models
     {
         public static ServiceBusViewModel GetSingleMetricResult(string metricName, DateTime startTime, DateTime finishTime, double interval)
         {
-            var jsonResult = GetJsonResult(metricName: metricName, startTime: startTime, finishTime: finishTime, interval: interval);
-            var viewModel = ConvertJsonToViewModel(json: jsonResult);
+            var jsonResult = GetJsonResult(metricName, startTime, finishTime, interval);
+            var viewModel = ConvertJsonToViewModel(jsonResult);
             return viewModel;
         }
 
@@ -24,9 +24,9 @@ namespace MillionsEyesWebApi.Models
         {
             List<ServiceBusViewModel> result = new List<ServiceBusViewModel>();
 
-            Parallel.For(fromInclusive: 0, toExclusive: Default.ServiceBusMetricsList.Count, body: (i) =>
+            Parallel.For(0, Default.ServiceBusMetricsList.Count, (i) =>
             {
-                result.Add(item: GetSingleMetricResult(metricName: Default.ServiceBusMetricsList[index: i], startTime: startTime, finishTime: finishTime, interval: interval));
+                result.Add(GetSingleMetricResult(Default.ServiceBusMetricsList[i], startTime, finishTime, interval));
             });
 
             return result;
@@ -36,27 +36,27 @@ namespace MillionsEyesWebApi.Models
         {
             var resourceId = $"subscriptions/{Default.SubscriptionId}/resourceGroups/{Default.ResourseGroupName}/providers/Microsoft.ServiceBus/namespaces/{Default.ServiceBusName}";
 
-            var metricsClient = Authenticate(tenantId: Default.TenantId, clientId: Default.ClientId, secret: Default.Secret, subscriptionId: Default.SubscriptionId).Result;
+            var metricsClient = Authenticate(Default.TenantId, Default.ClientId, Default.Secret, Default.SubscriptionId).Result;
 
             //var metricDefinitions = metricsClient.MetricDefinitions.ListAsync(resourceId).Result;
             //metricDefinitions.Select(x => new { x.Name.Value, x.Unit }).Dump();
 
             var metrics = metricsClient.Metrics.ListAsync(
-                resourceUri: resourceId,
+                resourceId,
                 timespan: $"{startTime:yyyy-MM-ddTHH:mmZ}/{finishTime:yyyy-MM-ddTHH:mmZ}",
-                interval: TimeSpan.FromMinutes(value: interval),
+                interval: TimeSpan.FromMinutes(interval),
                 metric: metricName,
                 aggregation: "Total").Result;
 
-            var jsonResult = JsonConvert.SerializeObject(value: metrics, formatting: Formatting.Indented);
+            var jsonResult = JsonConvert.SerializeObject(metrics, Formatting.Indented);
 
             return jsonResult;
         }
 
         private static async Task<MonitorClient> Authenticate(string tenantId, string clientId, string secret, string subscriptionId)
         {
-            var serviceCreds = await ApplicationTokenProvider.LoginSilentAsync(domain: tenantId, clientId: clientId, secret: secret);
-            var monitorClient = new MonitorClient(credentials: serviceCreds)
+            var serviceCreds = await ApplicationTokenProvider.LoginSilentAsync(tenantId, clientId, secret);
+            var monitorClient = new MonitorClient(serviceCreds)
             {
                 SubscriptionId = subscriptionId
             };
@@ -66,20 +66,20 @@ namespace MillionsEyesWebApi.Models
 
         private static ServiceBusViewModel ConvertJsonToViewModel(string json)
         {
-            var root = JsonConvert.DeserializeObject<IncomingMetrics>(value: json);
+            var root = JsonConvert.DeserializeObject<IncomingMetrics>(json);
 
             ServiceBusViewModel viewModel = new ServiceBusViewModel
             {
-                MetricName = root.Value[index: 0].Name.Value,
+                MetricName = root.Value[0].Name.Value,
                 Points = new List<ServiceBusMetricPoint>()
             };
 
-            foreach (var t in root.Value[index: 0].Timeseries[index: 0].Data)
+            foreach (var t in root.Value[0].Timeseries[0].Data)
             {
-                viewModel.Points.Add(item: new ServiceBusMetricPoint()
+                viewModel.Points.Add(new ServiceBusMetricPoint()
                 {
                     Time = t.TimeStamp.ToUniversalTime(),
-                    Count = Convert.ToInt32(value: t.Total)
+                    Count = Convert.ToInt32(t.Total)
                 });
             }
 

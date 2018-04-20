@@ -8,15 +8,15 @@ using static MillionsEyesWebApi.Models.ServiceBusLogic;
 
 namespace MillionsEyesWebApi.Controllers
 {
-    [EnableCors(origins: "http://localhost:4200", headers: "*", methods: "POST, PUT, DELETE, OPTIONS")]
+    [EnableCors("http://localhost:4200", "*", "POST, PUT, DELETE, OPTIONS")]
     public class ServiceBusMetricsController : ApiController
     {
         [HttpGet]
-        [ResponseType(responseType: typeof(List<ServiceBusViewModel>))]
+        [ResponseType(typeof(List<ServiceBusViewModel>))]
         public IHttpActionResult Get(int hoursCount, double interval)
         {
-            return Ok(content: GetMetricsResult(startTime: DateTime.UtcNow.AddHours(value: -hoursCount),
-                finishTime: DateTime.UtcNow, interval: interval));
+            return Ok(GetMetricsResult(DateTime.UtcNow.AddHours(-hoursCount),
+                DateTime.UtcNow, interval));
         }
 
         //[HttpGet]

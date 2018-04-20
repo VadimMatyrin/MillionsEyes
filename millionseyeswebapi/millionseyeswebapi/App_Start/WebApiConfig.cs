@@ -12,26 +12,26 @@ namespace MillionsEyesWebApi
             config.MapHttpAttributeRoutes();
 
             config.Routes.MapHttpRoute(
-                name: "ServiceBusMetricRoute",
-                routeTemplate: "api/{controller}/{action}/{hoursCount}/{interval}"
+                "ServiceBusMetricRoute",
+                "api/{controller}/{action}/{hoursCount}/{interval}"
             );
 
             config.Routes.MapHttpRoute(
-                name: "ServiceBusTimeIntervaleMetricRoute",
-                routeTemplate: "api/{controller}/{action}/timespan/{startTime}/{finishTime}/{interval}",
-                defaults: new { interval = RouteParameter.Optional }
+                "ServiceBusTimeIntervaleMetricRoute",
+                "api/{controller}/{action}/timespan/{startTime}/{finishTime}/{interval}",
+                new { interval = RouteParameter.Optional }
             );
 
             config.Routes.MapHttpRoute(
-                name: "ServiceBusSingleMetricRoute",
-                routeTemplate: "api/{controller}/{action}/{metricName}/{hoursCount}/",
-                defaults: new { hoursCount = RouteParameter.Optional }
+                "ServiceBusSingleMetricRoute",
+                "api/{controller}/{action}/{metricName}/{hoursCount}/",
+                new { hoursCount = RouteParameter.Optional }
             );
 
             config.Routes.MapHttpRoute(
-                name: "ServiceBusSingleMetricRouteWithInterval",
-                routeTemplate: "api/{controller}/{action}/{metricName}/{hoursCount}/{interval}",
-                defaults: new { hoursCount = RouteParameter.Optional, interval = RouteParameter.Optional }
+                "ServiceBusSingleMetricRouteWithInterval",
+                "api/{controller}/{action}/{metricName}/{hoursCount}/{interval}",
+                new { hoursCount = RouteParameter.Optional, interval = RouteParameter.Optional }
             );
 
             config.EnableCors();

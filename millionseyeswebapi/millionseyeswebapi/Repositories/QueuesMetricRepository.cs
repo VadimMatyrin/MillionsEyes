@@ -27,8 +27,8 @@ namespace MillionsEyesWebApi.Repository
             {
                 foreach (var time in value.Timeseries)
                 {
-                    QueueMetric metric = new QueueMetric(name: value.Name.Value,
-                                                         metricsForPeriod: time.Data);
+                    QueueMetric metric = new QueueMetric(value.Name.Value,
+                                                         time.Data);
                     metrics.Add(metric);
                 }
             }

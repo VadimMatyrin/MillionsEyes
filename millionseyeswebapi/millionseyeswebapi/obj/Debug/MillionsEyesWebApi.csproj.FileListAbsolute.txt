@@ -452,3 +452,4 @@ D:\GitHub\MillionEyes\MillionsEyes\millionseyeswebapi\MillionsEyesWebApi\bin\Uni
 D:\GitHub\MillionEyes\MillionsEyes\millionseyeswebapi\MillionsEyesWebApi\bin\Unity.Container.dll
 D:\GitHub\MillionEyes\MillionsEyes\millionseyeswebapi\MillionsEyesWebApi\bin\WebActivatorEx.dll
 D:\GitRepository\MillionsEyes\millionseyeswebapi\MillionsEyesWebApi\bin\Swashbuckle.Core.dll
+D:\GitHub\MillionEyes\MillionsEyes\millionseyeswebapi\MillionsEyesWebApi\bin\Swashbuckle.Core.dll

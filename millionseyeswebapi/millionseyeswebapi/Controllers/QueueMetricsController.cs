@@ -7,7 +7,7 @@ using System.Web.Http.Cors;
 namespace MillionsEyesWebApi.Controllers
 {
     [RoutePrefix("api/queuemetrics")]
-    [EnableCors(origins: "http://localhost:4200", headers: "*", methods: "POST, PUT, DELETE, OPTIONS")]
+    [EnableCors("http://localhost:4200", "*", "POST, PUT, DELETE, OPTIONS")]
     public class QueueMetricsController : ApiController
     {
         private readonly IQueuesMetricRepository _queuesMetricRepository;
