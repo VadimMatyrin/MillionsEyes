@@ -5,5 +5,6 @@
 
 export const environment = {
   production: false,
-  apiUrl: "http://localhost:62670/api/serviceBusMetrics/get"
+  apiUrl: 'http://localhost:62670/api/serviceBusMetrics/get',
+  queueUrl: 'http://localhost:62670/api/queuemetrics/getallmetrics'
 };

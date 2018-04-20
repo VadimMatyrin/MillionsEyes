@@ -9,25 +9,28 @@ import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { MyDateRangePickerModule } from 'mydaterangepicker';
 import { MetricsService } from './shared/metrics.service';
+import { QueueService } from './shared/queue.service';
 
-import {MatTabsModule} from '@angular/material/tabs'
+import {MatTabsModule} from '@angular/material/tabs';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { QueueComponent } from './queue/queue.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    ViewGraphComponent
+    ViewGraphComponent,
+    QueueComponent
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule,    
+    AppRoutingModule,
     FormsModule,
     HttpModule,
     MyDateRangePickerModule,
     MatTabsModule,
     BrowserAnimationsModule
   ],
-  providers: [MetricsService],
+  providers: [MetricsService, QueueService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
