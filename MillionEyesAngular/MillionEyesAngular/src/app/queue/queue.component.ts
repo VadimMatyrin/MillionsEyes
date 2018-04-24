@@ -27,7 +27,7 @@ export class QueueComponent implements OnInit {
         height: 500,
       },
       title: {
-          text: 'Service Bus Metrics',
+          text: 'Queues Metrics',
           marginLeft: 'auto',
           marginRight: 'auto'
       },

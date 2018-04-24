@@ -1,4 +1,5 @@
 ﻿using MillionsEyesWebApi.Models;
+using MillionsEyesWebApi.Models.QueuesViewModel;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Web.Http;
@@ -19,13 +20,12 @@ namespace MillionsEyesWebApi.Controllers
 
         [HttpGet]
         [Route("getallmetrics")]
-        public string GetAllMetrics()
+        public IHttpActionResult GetAllMetrics()
         {
             Task<string> message = _queuesMetricRepository.GetAllMetrics();
             IncomingMetrics metric = _queuesMetricRepository.DeserializeToObject(message.Result);
-            List<QueueMetric> metricModels = _queuesMetricRepository.CreateMetricModel(metric);
-            string result = _queuesMetricRepository.SerializeToJson(metricModels);
-            return result;
+            QueueMetricViewModel metricModels = _queuesMetricRepository.CreateMetricModel(metric);
+            return Ok(metricModels);
         }
 
         [HttpGet]

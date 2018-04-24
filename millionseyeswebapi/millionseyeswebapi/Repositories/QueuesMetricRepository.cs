@@ -1,6 +1,8 @@
 ﻿using MillionsEyesWebApi.Helpers;
 using MillionsEyesWebApi.Models;
+using MillionsEyesWebApi.Models.QueuesViewModel;
 using Newtonsoft.Json;
+using ServiceStack;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -16,23 +18,26 @@ namespace MillionsEyesWebApi.Repository
             _helper = helper;
         }
 
-        public QueuesMetricRepository()
-        {
-        }
-
-        public List<QueueMetric> CreateMetricModel(IncomingMetrics incomingMetric)
+        public QueueMetricViewModel CreateMetricModel(IncomingMetrics incomingMetric)
         {
             List<QueueMetric> metrics = new List<QueueMetric>();
+            QueueMetricViewModel model = new QueueMetricViewModel();
             foreach (var value in incomingMetric.Value)
             {
                 foreach (var time in value.Timeseries)
                 {
-                    QueueMetric metric = new QueueMetric(value.Name.Value,
-                                                         time.Data);
-                    metrics.Add(metric);
+                    foreach (var data in time.Data)
+                    {
+                        QueueMetric metric = new QueueMetric(data.TimeStamp,
+                                                             data.Total);
+                        model.MetricName = value.Name.Value;
+                        metrics.Add(metric);
+                    }
+                       
                 }
             }
-            return metrics;
+            model.QueueMetrics = metrics;
+            return model;
         }
 
         public Task<string> GetAllMetrics()
@@ -83,15 +88,9 @@ namespace MillionsEyesWebApi.Repository
             return metric;
         }
 
-        public string SerializeToJson(List<QueueMetric> metrics)
-        {
-            string json = JsonConvert.SerializeObject(metrics);
-            return json;
-        }
-
         private string GetDefaultTimestamp()
         {
-            DateTime startDate = DateTime.Now.AddDays(-15);
+            DateTime startDate = DateTime.Now.AddDays(-7);
             DateTime endDate = DateTime.Now;
             string timestamp = GetTimestamp(startDate, endDate);
             return timestamp;

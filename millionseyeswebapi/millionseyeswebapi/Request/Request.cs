@@ -72,7 +72,7 @@ namespace MillionsEyesWebApi.Request
         {
             get
             {
-                return "pusher";
+                return "puller";
             }
             set
             {
