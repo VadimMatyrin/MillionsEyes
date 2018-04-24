@@ -35,6 +35,5 @@ namespace MillionsEyesWebApi.Controllers
             Task<string> message = _queuesMetricRepository.GetMetrics(model);
             return message;
         }
-
     }
 }

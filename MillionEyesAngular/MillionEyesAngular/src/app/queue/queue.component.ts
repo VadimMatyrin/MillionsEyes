@@ -85,7 +85,6 @@ export class QueueComponent implements OnInit {
   myDateRangePickerOptions: IMyDrpOptions = {
     dateFormat: 'dd.mm.yyyy',
   };
-  vodafone: string;
 
   ngOnInit() {
     this.service.get().subscribe(m => {
@@ -98,7 +97,7 @@ export class QueueComponent implements OnInit {
 
     this.options.series = this.formSeries(m);
 
-    this.chart = Highcharts.chart('container', this.options);
+    this.chart = Highcharts.chart('queue-container', this.options);
   }
 
   formSeries(m: Array<Metric>) {

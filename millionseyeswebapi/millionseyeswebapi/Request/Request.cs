@@ -61,7 +61,7 @@ namespace MillionsEyesWebApi.Request
         {
             get
             {
-                return "PT6H";
+                return "PT1H";
             }
             set
             {

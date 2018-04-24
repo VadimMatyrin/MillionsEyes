@@ -6,7 +6,7 @@ import {IMyDateRangeModel} from 'mydaterangepicker';
 import * as moment from 'moment';
 import Highcharts = require('highcharts');
 
-declare var jQuery:any;
+declare var jQuery: any;
 
 @Component({
   selector: 'app-view-graph',
@@ -16,22 +16,22 @@ declare var jQuery:any;
 
 export class ViewGraphComponent implements OnInit {
 
-  constructor(private service: MetricsService) { 
+  constructor(private service: MetricsService) {
     this.options = {
       chart: {
-        type: 'area', 
-        zoomType: "x", 
+        type: 'area',
+        zoomType: 'x',
         panning: true,
         panKey: 'shift',
         height: 500,
       },
       title: {
-          text: "Service Bus Metrics",
+          text: 'Service Bus Metrics',
           marginLeft: 'auto',
           marginRight: 'auto'
       },
       subtitle: {
-          text: "MillionsEyes",
+          text: 'MillionsEyes',
           marginLeft: 'auto',
           marginRight: 'auto',
       },
@@ -74,6 +74,7 @@ export class ViewGraphComponent implements OnInit {
   }
 
   metrics: Array<Metric> = [];
+  // tslint:disable-next-line:no-inferrable-types
   interval: number = 1;
   hoursCount: number;
   dataRange: IMyDateRangeModel;
@@ -83,16 +84,15 @@ export class ViewGraphComponent implements OnInit {
   myDateRangePickerOptions: IMyDrpOptions = {
     dateFormat: 'dd.mm.yyyy',
   };
-  vodafone:string;
+  vodafone: string;
 
   ngOnInit() {
-    this.service.get().subscribe(m => 
-      {
+    this.service.get().subscribe(m => {
         this.updateGraph(m);
       });
   }
 
-  updateGraph(m: Array<Metric>){
+  updateGraph(m: Array<Metric>) {
     this.metrics = m;
 
     this.options.series = this.formSeries(m);
@@ -100,17 +100,16 @@ export class ViewGraphComponent implements OnInit {
     this.chart = Highcharts.chart('container', this.options);
   }
 
-  formSeries(m: Array<Metric>){
+  formSeries(m: Array<Metric>) {
+    // tslint:disable-next-line:prefer-const
     let series = [];
 
-    for (let i = 0; i < m.length; i++)
-    {   
+    for (let i = 0; i < m.length; i++) {
         series.push({
             name: m[i].metricName,
             data: []
-        }); 
-        for (let j = 0; j < m[i].points.length; j++)
-        {
+        });
+        for (let j = 0; j < m[i].points.length; j++) {
             series[i].data.push([m[i].points[j].date.getTime(), m[i].points[j].count]);
         }
     }
@@ -118,40 +117,39 @@ export class ViewGraphComponent implements OnInit {
     return series;
   }
 
-  changeLastHoursCount(hoursCount: number){
+  changeLastHoursCount(hoursCount: number) {
     this.chart.showLoading();
     this.hoursCount = hoursCount;
     this.dataRange = null;
 
-    this.service.getForLastHours(hoursCount, this.interval).subscribe(m => 
-        {
+    this.service.getForLastHours(hoursCount, this.interval).subscribe(m => {
           this.updateGraph(m);
         });
   }
 
-  changeDateRange(dataRange:IMyDateRangeModel){
+  changeDateRange(dataRange: IMyDateRangeModel) {
     this.chart.showLoading();
 
     this.hoursCount = 0;
     this.dataRange = dataRange;
 
-    let date1:Date = dataRange.beginJsDate;
-    let date2:Date = dataRange.endJsDate;
+    // tslint:disable-next-line:prefer-const
+    let date1: Date = dataRange.beginJsDate;
+    // tslint:disable-next-line:prefer-const
+    let date2: Date = dataRange.endJsDate;
 
-    this.service.getForTimeInterval(date1, date2, this.interval).subscribe(m => 
-        {
+    this.service.getForTimeInterval(date1, date2, this.interval).subscribe(m => {
           this.updateGraph(m);
         });
   }
 
-  changeInterval(interval: number){
+  changeInterval(interval: number) {
     this.chart.showLoading();
     interval = interval;
 
-    if (this.hoursCount == 0){
+    if (this.hoursCount === 0) {
         this.changeDateRange(this.dataRange);
-    }
-    else{
+    } else {
         this.changeLastHoursCount(this.hoursCount);
     }
   }

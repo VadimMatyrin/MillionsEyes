@@ -37,19 +37,16 @@ export class QueueService {
 
     formMetrics(response) {
         // tslint:disable-next-line:prefer-const
-        let metrics: Array<Metric> = new Array<Metric>(2);
+        let metrics: Array<Metric> = new Array<Metric>(1);
 
         // tslint:disable-next-line:prefer-const
         let data = response.json();
-
-        for (let i = 0; i < data.length; i++) {
-            // tslint:disable-next-line:prefer-const
-            let metric: Metric = {metricName: '', points: new Array<Point>()};
-
-            metric.metricName = data[i].MetricName;
-
-            for (let j = 0; j < data[i].Points.length; j++) {
-                metric.points.push({date: new Date(data[i].Points[j].Time), count: data[i].Points[j].Count});
+        // tslint:disable-next-line:prefer-const
+        let metric: Metric = {metricName: '', points: new Array<Point>()};
+        metric.metricName = data.MetricName;
+        for (let i = 0; i < metrics.length; i++) {
+            for (let j = 0; j < data.QueueMetrics.length; j++) {
+                metric.points.push({date: new Date(data.QueueMetrics[j].Time), count: data.QueueMetrics[j].Count});
             }
 
             metrics[i] = metric;

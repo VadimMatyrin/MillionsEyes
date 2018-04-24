@@ -90,7 +90,7 @@ namespace MillionsEyesWebApi.Repository
 
         private string GetDefaultTimestamp()
         {
-            DateTime startDate = DateTime.Now.AddDays(-7);
+            DateTime startDate = DateTime.Now.AddDays(-1);
             DateTime endDate = DateTime.Now;
             string timestamp = GetTimestamp(startDate, endDate);
             return timestamp;
