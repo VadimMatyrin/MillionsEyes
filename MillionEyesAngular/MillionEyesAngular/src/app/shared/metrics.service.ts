@@ -14,17 +14,17 @@ export class MetricsService
     constructor(private http: Http)
     { }
 
-        get() : Observable<Array<Metric>>{
+    get() : Observable<Array<Metric>>{
         return  this.http.get(environment.apiUrl + "/1/1").map(response =>
         {
-            return this.formMetrics(response);
+            return this.formServiceBusMetrics(response);
         });   
     }
 
     getForLastHours(hoursCount: number, interval: number): Observable<Array<Metric>>{
         return this.http.get(environment.apiUrl + "/" + hoursCount + "/" + interval).map(response =>
             {
-                return this.formMetrics(response);
+                return this.formServiceBusMetrics(response);
             });   
     }
 
@@ -34,29 +34,29 @@ export class MetricsService
 
         return this.http.get(environment.apiUrl + "/timespan/" + date1String + "/" + date2String + "/" + interval).map(response =>
             {
-                return this.formMetrics(response);
+                return this.formServiceBusMetrics(response);
             }); 
     }
 
-    formMetrics(response){
-        let metrics: Array<Metric> = new Array<Metric>(2);
+    formServiceBusMetrics(response) {
+        let serviceBusMetrics: Array<Metric> = new Array<Metric>(2);
 
-        let data = response.json();
+        let serviceBusData = response.json();
 
-        for (let i = 0; i < data.length; i++)
+        for (let i = 0; i < serviceBusData.length; i++)
         {
             let metric: Metric = {metricName: "", points: new Array<Point>()};
 
-            metric.metricName = data[i].MetricName;
+            metric.metricName = serviceBusData[i].MetricName;
 
-            for (let j = 0; j < data[i].Points.length; j++)
+            for (let j = 0; j < serviceBusData[i].Points.length; j++)
             {
-                metric.points.push({date: new Date(data[i].Points[j].Time), count: data[i].Points[j].Count});
+                metric.points.push({date: new Date(serviceBusData[i].Points[j].Time), count: serviceBusData[i].Points[j].Count});
             }
 
-            metrics[i] = metric;
+            serviceBusMetrics[i] = metric;
         }
 
-        return metrics;
+        return serviceBusMetrics;
     }
 }

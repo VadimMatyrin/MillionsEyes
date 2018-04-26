@@ -14,43 +14,46 @@ export class QueueService {
 
     get(): Observable<Array<Metric>> {
         return this.http.get(environment.queueUrl).map(response => {
-            return this.formMetrics(response);
+            return this.formQueuesMetrics(response);
         });
     }
 
     getForLastHours(hoursCount: number, interval: number): Observable<Array<Metric>> {
         return this.http.get(environment.queueUrl + '/' + hoursCount + '/' + interval).map(response => {
-                return this.formMetrics(response);
+                return this.formQueuesMetrics(response);
             });
     }
 
     getForTimeInterval(date1: Date, date2: Date, interval: number) {
-        // tslint:disable-next-line:prefer-const
         let date1String = moment(date1.toString()).format('YYYY-MM-DDTHH:MM:SS') + 'Z';
-        // tslint:disable-next-line:prefer-const
         let date2String = moment(date2.toString()).format('YYYY-MM-DDTHH:MM:SS') + 'Z';
 
         return this.http.get(environment.queueUrl + '/timespan/' + date1String + '/' + date2String + '/' + interval).map(response => {
-                return this.formMetrics(response);
+                return this.formQueuesMetrics(response);
             });
     }
 
-    formMetrics(response) {
-        // tslint:disable-next-line:prefer-const
-        let metrics: Array<Metric> = new Array<Metric>(1);
+    formQueuesMetrics(response) {
+        let queuesMetrics: Array<Metric> = new Array<Metric>();
 
-        // tslint:disable-next-line:prefer-const
-        let data = response.json();
-        // tslint:disable-next-line:prefer-const
-        let metric: Metric = {metricName: '', points: new Array<Point>()};
-        metric.metricName = data.MetricName;
-        for (let i = 0; i < metrics.length; i++) {
-            for (let j = 0; j < data.QueueMetrics.length; j++) {
-                metric.points.push({date: new Date(data.QueueMetrics[j].Time), count: data.QueueMetrics[j].Count});
+        let queuesData = response.json();
+
+        for (let i = 0; i < queuesData.QueueMetrics.length; i++)
+        {
+            let metric: Metric = {metricName: "", points: new Array<Point>()};
+
+            metric.metricName = queuesData.QueueMetrics[i].QueueName;
+
+            for (let j = 0; j < queuesData.QueueMetrics[i].QueueMetrics.length; j++)
+            {
+                metric.points.push({date: new Date(queuesData.QueueMetrics[i].QueueMetrics[j].Time), count: queuesData.QueueMetrics[i].QueueMetrics[j].Count});
             }
-            metrics[i] = metric;
+
+            console.log(metric);
+
+            queuesMetrics.push(metric);
         }
 
-        return metrics;
+        return queuesMetrics;
     }
 }

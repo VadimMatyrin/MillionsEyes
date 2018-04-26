@@ -13,13 +13,11 @@ import { QueueService } from './shared/queue.service';
 
 import {MatTabsModule} from '@angular/material/tabs';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { QueueComponent } from './queue/queue.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    ViewGraphComponent,
-    QueueComponent
+    ViewGraphComponent
   ],
   imports: [
     BrowserModule,
