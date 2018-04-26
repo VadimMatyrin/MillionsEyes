@@ -2,9 +2,9 @@
 using MillionsEyesWebApi.Models;
 using MillionsEyesWebApi.Models.QueuesViewModel;
 using Newtonsoft.Json;
-using ServiceStack;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Threading.Tasks;
 
 namespace MillionsEyesWebApi.Repository
@@ -18,33 +18,49 @@ namespace MillionsEyesWebApi.Repository
             _helper = helper;
         }
 
-        public QueueMetricViewModel CreateMetricModel(IncomingMetrics incomingMetric)
+        public QueueMetricViewModel CreateMetricModel(List<IncomingMetrics> incomingMetrics)
         {
             List<QueueMetric> metrics = new List<QueueMetric>();
+            List<QueueMetricModel> metricModels = new List<QueueMetricModel>();
+            QueueMetricModel metricModel = new QueueMetricModel();
             QueueMetricViewModel model = new QueueMetricViewModel();
-            foreach (var value in incomingMetric.Value)
+            foreach (var incomingMetric in incomingMetrics)
             {
-                foreach (var time in value.Timeseries)
+                foreach (var value in incomingMetric.Value)
                 {
-                    foreach (var data in time.Data)
+                    foreach (var time in value.Timeseries)
                     {
-                        QueueMetric metric = new QueueMetric(data.TimeStamp,
-                                                             data.Total);
-                        model.MetricName = value.Name.Value;
-                        metrics.Add(metric);
+                       foreach (var metadata in time.Metadatavalues)
+                       {
+
+                            foreach (var data in time.Data)
+                            {
+                                QueueMetric metric = new QueueMetric(data.TimeStamp,
+                                                                     data.Total);
+                                metrics.Add(metric);
+                                metricModel.MetricName = value.Name.Value;
+                                metricModel.QueueMetrics = metrics;
+                                metricModel.QueueName = metadata.Value;
+                                metricModels.Add(metricModel);
+                            }
+                        }
                     }
-                       
                 }
             }
-            model.QueueMetrics = metrics;
+            model.QueueMetrics = metricModels;
             return model;
         }
 
-        public Task<string> GetAllMetrics()
+        public List<string> GetAllMetrics()
         {
+            string[] queues = ConfigurationManager.AppSettings["QueueNames"].Split(',');
+            List<string> messages = new List<string>();
             Request.Request.Timestamp = GetDefaultTimestamp();
+            foreach (var queue in queues)
+            {
+                Request.Request.EntityName = queue;
 
-            string url = $"{Settings.BaseUrl}/subscriptions/{Settings.SubscriptionId}/" +
+                string url = $"{Settings.BaseUrl}/subscriptions/{Settings.SubscriptionId}/" +
                                $"resourceGroups/{Request.Request.ResourceGroup}/" +
                                $"providers/{Request.Request.Provider}/" +
                                $"namespaces/{Request.Request.ServiceBusNameSpace}/" +
@@ -56,8 +72,10 @@ namespace MillionsEyesWebApi.Repository
                                $"&$filter=EntityName eq '{Request.Request.EntityName}'" +
                                $"&{Settings.ApiVersion}";
 
-            var message = _helper.GetMethodAsync(url);
-            return message;
+                var message = _helper.GetMethodAsync(url);
+                messages.Add(message.Result);
+            }
+            return messages;
         }
 
         public Task<string> GetMetrics(GetMetricModel model)
@@ -81,11 +99,16 @@ namespace MillionsEyesWebApi.Repository
             return _helper.GetMethodAsync(url);
         }
 
-        public IncomingMetrics DeserializeToObject(string message)
+        public List<IncomingMetrics> DeserializeToObject(List<string> messages)
         {
-            IncomingMetrics metric = new IncomingMetrics();
-            metric = JsonConvert.DeserializeObject<IncomingMetrics>(message);
-            return metric;
+            List<IncomingMetrics> metrics = new List<IncomingMetrics>();
+            foreach (string message in messages)
+            {
+                IncomingMetrics metric = new IncomingMetrics();
+                metric = JsonConvert.DeserializeObject<IncomingMetrics>(message);
+                metrics.Add(metric);
+            }
+            return metrics;
         }
 
         private string GetDefaultTimestamp()

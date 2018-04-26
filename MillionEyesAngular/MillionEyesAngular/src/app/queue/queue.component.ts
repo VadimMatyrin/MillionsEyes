@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, AfterViewInit, OnDestroy, } from '@angular/core';
 import { QueueService } from '../shared/queue.service';
 import { Metric } from '../shared/metric.model';
 import {IMyDrpOptions, IMyDateRange} from 'mydaterangepicker';
@@ -14,8 +14,7 @@ declare var jQuery: any;
   styleUrls: ['./queue.component.css']
 })
 
-export class QueueComponent implements OnInit {
-
+export class QueueComponent implements AfterViewInit, OnDestroy {
   [x: string]: any;
   constructor(private service: QueueService) {
     this.options = {
@@ -86,13 +85,19 @@ export class QueueComponent implements OnInit {
     dateFormat: 'dd.mm.yyyy',
   };
 
-  ngOnInit() {
+  ngAfterViewInit() {
     this.service.get().subscribe(m => {
-        this.updateGraph(m);
-      });
+      this.updateGraph(m);
+    });
   }
 
-  updateGraph(m: Array<Metric>) {
+  ngOnDestroy() {
+    this.service.get().subscribe(m => {
+      this.updateGraph(m);
+    });
+  }
+
+    updateGraph(m: Array<Metric>) {
     this.metrics = m;
 
     this.options.series = this.formSeries(m);

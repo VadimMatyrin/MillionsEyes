@@ -22,9 +22,9 @@ namespace MillionsEyesWebApi.Controllers
         [Route("getallmetrics")]
         public IHttpActionResult GetAllMetrics()
         {
-            Task<string> message = _queuesMetricRepository.GetAllMetrics();
-            IncomingMetrics metric = _queuesMetricRepository.DeserializeToObject(message.Result);
-            QueueMetricViewModel metricModels = _queuesMetricRepository.CreateMetricModel(metric);
+            List<string> messages = _queuesMetricRepository.GetAllMetrics();
+            List<IncomingMetrics> metrics = _queuesMetricRepository.DeserializeToObject(messages);
+            QueueMetricViewModel metricModels = _queuesMetricRepository.CreateMetricModel(metrics);
             return Ok(metricModels);
         }
 

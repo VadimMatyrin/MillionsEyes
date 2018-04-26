@@ -6,7 +6,7 @@ namespace MillionsEyesWebApi.Models.JsonDeserializeClasses
     public class Timesery
     {
         [JsonProperty("metadatavalues")]
-        public List<object> Metadatavalues { get; set; }
+        public List<Metadatavalues> Metadatavalues { get; set; }
 
         [JsonProperty("data")]
         public List<Datum> Data { get; set; }

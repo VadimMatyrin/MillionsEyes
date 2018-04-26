@@ -61,7 +61,7 @@ namespace MillionsEyesWebApi.Request
         {
             get
             {
-                return "PT1H";
+                return "PT6H";
             }
             set
             {
@@ -70,13 +70,8 @@ namespace MillionsEyesWebApi.Request
 
         public static string EntityName
         {
-            get
-            {
-                return "puller";
-            }
-            set
-            {
-            }
+            get;
+            set;
         }
         public static string Metrics
         {

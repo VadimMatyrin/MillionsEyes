@@ -14,8 +14,8 @@ export class MetricsService
     constructor(private http: Http)
     { }
 
-    get() : Observable<Array<Metric>>{
-        return this.http.get(environment.apiUrl + "/1/1").map(response =>
+        get() : Observable<Array<Metric>>{
+        return  this.http.get(environment.apiUrl + "/1/1").map(response =>
         {
             return this.formMetrics(response);
         });   

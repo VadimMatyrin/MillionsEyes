@@ -48,7 +48,6 @@ export class QueueService {
             for (let j = 0; j < data.QueueMetrics.length; j++) {
                 metric.points.push({date: new Date(data.QueueMetrics[j].Time), count: data.QueueMetrics[j].Count});
             }
-
             metrics[i] = metric;
         }
 

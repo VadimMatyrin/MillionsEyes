@@ -259,12 +259,14 @@
     <Compile Include="Models\GetMetricModel.cs" />
     <Compile Include="Models\JsonDeserializeClasses\Datum.cs" />
     <Compile Include="Models\JsonDeserializeClasses\IncomingMetrics.cs" />
+    <Compile Include="Models\JsonDeserializeClasses\Metadatavalues.cs" />
     <Compile Include="Models\JsonDeserializeClasses\Name.cs" />
     <Compile Include="Models\JsonDeserializeClasses\Timesery.cs" />
     <Compile Include="Models\JsonDeserializeClasses\Value.cs" />
     <Compile Include="Models\MetricViewClasses\ServiceBusMetricPoint.cs" />
     <Compile Include="Models\MetricViewClasses\ServiceBusViewModel.cs" />
     <Compile Include="Models\QueuesViewModel\QueueMetric.cs" />
+    <Compile Include="Models\QueuesViewModel\QueueMetricModel.cs" />
     <Compile Include="Models\QueuesViewModel\QueueMetricViewModel.cs" />
     <Compile Include="Models\ServiceBusLogic.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

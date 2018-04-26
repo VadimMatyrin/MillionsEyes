@@ -7,11 +7,11 @@ namespace MillionsEyesWebApi.Models
 {
     public interface IQueuesMetricRepository
     {
-        Task<string> GetAllMetrics();
+        List<string> GetAllMetrics();
 
-        QueueMetricViewModel CreateMetricModel(IncomingMetrics incomingMetric);
+        QueueMetricViewModel CreateMetricModel(List<IncomingMetrics> incomingMetric);
 
-        IncomingMetrics DeserializeToObject(string message);
+        List<IncomingMetrics> DeserializeToObject(List<string> messages);
 
         Task<string> GetMetrics(GetMetricModel model);
     }
