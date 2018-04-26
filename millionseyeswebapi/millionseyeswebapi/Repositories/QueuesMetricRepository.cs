@@ -20,33 +20,34 @@ namespace MillionsEyesWebApi.Repository
 
         public QueueMetricViewModel CreateMetricModel(List<IncomingMetrics> incomingMetrics)
         {
-            List<QueueMetric> metrics = new List<QueueMetric>();
             List<QueueMetricModel> metricModels = new List<QueueMetricModel>();
-            QueueMetricModel metricModel = new QueueMetricModel();
             QueueMetricViewModel model = new QueueMetricViewModel();
+
             foreach (var incomingMetric in incomingMetrics)
             {
                 foreach (var value in incomingMetric.Value)
                 {
                     foreach (var time in value.Timeseries)
                     {
-                       foreach (var metadata in time.Metadatavalues)
-                       {
-
+                        foreach (var metadata in time.Metadatavalues)
+                        {
+                            QueueMetricModel metricModel = new QueueMetricModel();
+                            List<QueueMetric> metrics = new List<QueueMetric>();
                             foreach (var data in time.Data)
                             {
-                                QueueMetric metric = new QueueMetric(data.TimeStamp,
-                                                                     data.Total);
+                                QueueMetric metric = new QueueMetric(data.TimeStamp, data.Total);
                                 metrics.Add(metric);
-                                metricModel.MetricName = value.Name.Value;
-                                metricModel.QueueMetrics = metrics;
-                                metricModel.QueueName = metadata.Value;
-                                metricModels.Add(metricModel);
                             }
+                            metricModel.MetricName = value.Name.Value;
+                            metricModel.QueueMetrics = metrics;
+                            metricModel.QueueName = metadata.Value;
+                            metricModels.Add(metricModel);
                         }
                     }
+  
                 }
             }
+
             model.QueueMetrics = metricModels;
             return model;
         }
