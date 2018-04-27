@@ -19,18 +19,18 @@ namespace MillionsEyesWebApi.Controllers
                 DateTime.UtcNow, interval));
         }
 
-        [HttpGet]
-        [ResponseType(responseType: typeof(List<ServiceBusViewModel>))]
-        public IHttpActionResult Get(DateTime startTime, DateTime finishTime)
-        {
-            return Ok(content: GetMetricsResult(startTime: startTime, finishTime: finishTime, interval: 1));
-        }
+        //[HttpGet]
+        //[ResponseType(responseType: typeof(List<ServiceBusViewModel>))]
+        //public IHttpActionResult Get(DateTime startTime, DateTime finishTime)
+        //{
+        //    return Ok(GetMetricsResult(startTime: startTime, finishTime: finishTime, interval: 1));
+        //}
 
-        [HttpGet]
-        [ResponseType(responseType: typeof(List<ServiceBusViewModel>))]
-        public IHttpActionResult Get(DateTime startTime, DateTime finishTime, int interval)
-        {
-            return Ok(content: GetMetricsResult(startTime: startTime, finishTime: finishTime, interval: interval));
-        }
+        //[HttpGet]
+        //[ResponseType(responseType: typeof(List<ServiceBusViewModel>))]
+        //public IHttpActionResult Get(DateTime startTime, DateTime finishTime, int interval)
+        //{
+        //    return Ok(GetMetricsResult(startTime: startTime, finishTime: finishTime, interval: interval));
+        //}
     }
 }
