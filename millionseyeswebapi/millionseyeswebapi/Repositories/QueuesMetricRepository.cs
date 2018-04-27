@@ -111,12 +111,14 @@ namespace MillionsEyesWebApi.Repository
             return metrics;
         }
 
-        public List<string> GetMetricsForHours(int hour)
+        public List<string> GetMetricsForHours(int hour, int interval)
         {
             string timestamp = GetTimestampForHour(hour);
+            string timeInterval = GetIntervalForHour(interval);
             string[] queues = ConfigurationManager.AppSettings["QueueNames"].Split(',');
             List<string> messages = new List<string>();
             Request.Request.Timestamp = timestamp;
+            Request.Request.Interval = timeInterval;
             foreach (var queue in queues)
             {
                 Request.Request.EntityName = queue;
@@ -196,6 +198,10 @@ namespace MillionsEyesWebApi.Repository
         private string GetInterval(int interval)
         {
             return $"PT{interval}H";
+        }
+        private string GetIntervalForHour(int interval)
+        {
+            return $"PT{interval}M";
         }
     }
 }

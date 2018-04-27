@@ -7,7 +7,7 @@ namespace MillionsEyesWebApi.Models
 {
     public interface IQueuesMetricRepository
     {
-        List<string> GetMetricsForHours(int hour);
+        List<string> GetMetricsForHours(int hour, int interval);
 
         List<string> GetMetricsForPeriod(DateTime startTime, DateTime endTimem, int interval);
 

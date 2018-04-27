@@ -31,9 +31,9 @@ namespace MillionsEyesWebApi.Controllers
 
         [HttpGet]
         [Route("getmetricsforhours")]
-        public IHttpActionResult GetMetricsForHours(int hour)
+        public IHttpActionResult GetMetricsForHours(int hour, int interval)
         {
-            List<string> messages = _queuesMetricRepository.GetMetricsForHours(hour);
+            List<string> messages = _queuesMetricRepository.GetMetricsForHours(hour, interval);
             List<IncomingMetrics> metrics = _queuesMetricRepository.DeserializeToObject(messages);
             QueueMetricViewModel metricModels = _queuesMetricRepository.CreateMetricModel(metrics);
             return Ok(metricModels);
