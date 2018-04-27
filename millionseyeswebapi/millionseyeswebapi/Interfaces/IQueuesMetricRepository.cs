@@ -7,6 +7,10 @@ namespace MillionsEyesWebApi.Models
 {
     public interface IQueuesMetricRepository
     {
+        List<string> GetMetricsForHours(int hour);
+
+        List<string> GetMetricsForPeriod(DateTime startTime, DateTime endTimem, int interval);
+
         List<string> GetAllMetrics();
 
         QueueMetricViewModel CreateMetricModel(List<IncomingMetrics> incomingMetric);
