@@ -181,7 +181,7 @@ namespace MillionsEyesWebApi.Repository
         }
         private string GetDefaultTimestamp()
         {
-            DateTime startDate = DateTime.Now.AddHours(-6);
+            DateTime startDate = DateTime.Now.AddHours(-1);
             DateTime endDate = DateTime.Now;
             string timestamp = GetTimestamp(startDate, endDate);
             return timestamp;
@@ -195,10 +195,12 @@ namespace MillionsEyesWebApi.Repository
             string timestamp = String.Format("{0}/{1}", sDate, eDate);
             return timestamp;
         }
+
         private string GetInterval(int interval)
         {
             return $"PT{interval}H";
         }
+
         private string GetIntervalForHour(int interval)
         {
             return $"PT{interval}M";

@@ -13,22 +13,23 @@ export class QueueService {
     constructor(private http: Http) { }
 
     get(): Observable<Array<Metric>> {
-        return this.http.get(environment.queueUrl).map(response => {
+        return this.http.get(environment.queueUrl + "getallmetrics").map(response => {
             return this.formQueuesMetrics(response);
         });
     }
 
     getForLastHours(hoursCount: number, interval: number): Observable<Array<Metric>> {
-        return this.http.get(environment.queueUrl + '/' + hoursCount + '/' + interval).map(response => {
+        return this.http.get(environment.queueUrl + 'getmetricsforhours?hour=' + hoursCount + '&interval=' + interval).map(response => {
                 return this.formQueuesMetrics(response);
             });
     }
 
     getForTimeInterval(date1: Date, date2: Date, interval: number) {
+
         let date1String = moment(date1.toString()).format('YYYY-MM-DDTHH:MM:SS') + 'Z';
         let date2String = moment(date2.toString()).format('YYYY-MM-DDTHH:MM:SS') + 'Z';
 
-        return this.http.get(environment.queueUrl + '/timespan/' + date1String + '/' + date2String + '/' + interval).map(response => {
+        return this.http.get(environment.queueUrl + 'getmetricsforperiod?startTime=' + date1String + '&endTime=' + date2String + '&interval=' + interval).map(response => {
                 return this.formQueuesMetrics(response);
             });
     }

@@ -188,16 +188,22 @@ export class ViewGraphComponent implements OnInit {
 
   changeLastHoursCount(hoursCount: number) {
     this.serviceBusChart.showLoading();
+    this.queuesChart.showLoading();
     this.hoursCount = hoursCount;
     this.dataRange = null;
 
     this.serviceBusService.getForLastHours(hoursCount, this.interval).subscribe(m => {
           this.updateServiceBusGraph(m);
         });
+
+    this.queuesService.getForLastHours(hoursCount, this.interval).subscribe(m =>{
+          this.updateQueuesGraph(m);
+    });
   }
 
   changeDateRange(dataRange: IMyDateRangeModel) {
     this.serviceBusChart.showLoading();
+    this.queuesChart.showLoading();
 
     this.hoursCount = 0;
     this.dataRange = dataRange;
@@ -210,10 +216,16 @@ export class ViewGraphComponent implements OnInit {
     this.serviceBusService.getForTimeInterval(date1, date2, this.interval).subscribe(m => {
           this.updateServiceBusGraph(m);
         });
+
+    this.queuesService.getForTimeInterval(date1, date2, this.interval).subscribe(m => {
+          this.updateQueuesGraph(m);
+    });
   }
 
   changeInterval(interval: number) {
     this.serviceBusChart.showLoading();
+    this.queuesChart.showLoading();
+    
     interval = interval;
 
     if (this.hoursCount === 0) {
