@@ -57,6 +57,7 @@ namespace MillionsEyesWebApi.Repository
             string[] queues = ConfigurationManager.AppSettings["QueueNames"].Split(',');
             List<string> messages = new List<string>();
             Request.Request.Timestamp = GetDefaultTimestamp();
+            Request.Request.Interval = GetDefaultInterval();
             foreach (var queue in queues)
             {
                 Request.Request.EntityName = queue;
@@ -195,6 +196,8 @@ namespace MillionsEyesWebApi.Repository
             string timestamp = String.Format("{0}/{1}", sDate, eDate);
             return timestamp;
         }
+
+        private string GetDefaultInterval() => "PT1H";
 
         private string GetInterval(int interval) => $"PT{interval}H";
 

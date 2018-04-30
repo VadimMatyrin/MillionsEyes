@@ -59,13 +59,8 @@ namespace MillionsEyesWebApi.Request
 
         public static string Interval
         {
-            get
-            {
-                return "PT6H";
-            }
-            set
-            {
-            }
+            get;
+            set;
         }
 
         public static string EntityName
