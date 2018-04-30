@@ -48,13 +48,5 @@ namespace MillionsEyesWebApi.Controllers
             QueueMetricViewModel metricModels = _queuesMetricRepository.CreateMetricModel(metrics);
             return Ok(metricModels);
         }
-
-        [HttpGet]
-        [Route("(getmetrics")]
-        public Task<string> GetMetrics([FromBody] GetMetricModel model)
-        {
-            Task<string> message = _queuesMetricRepository.GetMetrics(model);
-            return message;
-        }
     }
 }

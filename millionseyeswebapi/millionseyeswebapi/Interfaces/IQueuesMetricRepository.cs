@@ -16,7 +16,5 @@ namespace MillionsEyesWebApi.Models
         QueueMetricViewModel CreateMetricModel(List<IncomingMetrics> incomingMetric);
 
         List<IncomingMetrics> DeserializeToObject(List<string> messages);
-
-        Task<string> GetMetrics(GetMetricModel model);
     }
 }

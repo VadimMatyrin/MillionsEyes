@@ -80,26 +80,6 @@ namespace MillionsEyesWebApi.Repository
             return messages;
         }
 
-        public Task<string> GetMetrics(GetMetricModel model)
-        {
-            Request.Request.Timestamp = model.Timestamp;
-            Request.Request.Interval = model.Interval;
-
-            string url = $"{Settings.BaseUrl}/subscriptions/{Settings.SubscriptionId}/" +
-                               $"resourceGroups/{Request.Request.ResourceGroup}/" +
-                               $"providers/{Request.Request.Provider}/" +
-                               $"namespaces/{Request.Request.ServiceBusNameSpace}/" +
-                               $"providers/{Request.Request.InsightProvider}/" +
-                               $"metrics?timespan={Request.Request.Timestamp}" +
-                               $"&interval={Request.Request.Interval}" +
-                               $"&metric={Request.Request.Metrics}" +
-                               $"&aggregation={Settings.Aggregation}" +
-                               $"&$filter=EntityName eq '{Request.Request.EntityName}'" +
-                               $"&{Settings.ApiVersion}";
-
-            return _helper.GetMethodAsync(url);
-        }
-
         public List<IncomingMetrics> DeserializeToObject(List<string> messages)
         {
             List<IncomingMetrics> metrics = new List<IncomingMetrics>();
@@ -116,10 +96,15 @@ namespace MillionsEyesWebApi.Repository
         {
             string timestamp = GetTimestampForHour(hour);
             string timeInterval = GetIntervalForHour(interval);
+            if (interval == 60)
+            {
+                timeInterval = GetInterval(1);
+            }
             string[] queues = ConfigurationManager.AppSettings["QueueNames"].Split(',');
             List<string> messages = new List<string>();
             Request.Request.Timestamp = timestamp;
             Request.Request.Interval = timeInterval;
+
             foreach (var queue in queues)
             {
                 Request.Request.EntityName = queue;
@@ -147,8 +132,11 @@ namespace MillionsEyesWebApi.Repository
             string[] queues = ConfigurationManager.AppSettings["QueueNames"].Split(',');
             List<string> messages = new List<string>();
             string timestamp = GetTimestamp(startTime, endTime);
-            string interval = GetInterval(hour);
-
+            string interval = GetIntervalForHour(hour);
+            if (hour == 60)
+            {
+                interval = GetInterval(1);
+            }
             Request.Request.Timestamp = timestamp;
             Request.Request.Interval = interval;
             foreach (var queue in queues)
