@@ -13,7 +13,7 @@ export class QueueService {
     constructor(private http: Http) { }
 
     get(): Observable<Array<Metric>> {
-        return this.http.get(environment.queueUrl + "getallmetrics").map(response => {
+        return this.http.get(environment.queueUrl + 'getmetricsforhours?hour=' + 1 + '&interval=' + 1).map(response => {
             return this.formQueuesMetrics(response);
         });
     }

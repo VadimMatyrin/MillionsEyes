@@ -79,7 +79,7 @@ namespace MillionsEyesWebApi.Repositories
             {
                 viewModel.Points.Add(new ServiceBusMetricPoint()
                 {
-                    Time = t.TimeStamp.ToUniversalTime(),
+                    Time = t.TimeStamp.AddHours(3).ToUniversalTime(),
                     Count = Convert.ToInt32(t.Total)
                 });
             }
