@@ -363,7 +363,6 @@ D:\GitHub\MillionEyes\MillionsEyes\millionseyeswebapi\MillionsEyesWebApi\obj\Deb
 D:\GitHub\MillionEyes\MillionsEyes\millionseyeswebapi\MillionsEyesWebApi\obj\Debug\MillionsEyesWebApi.csproj.CoreCompileInputs.cache
 D:\GitHub\MillionEyes\MillionsEyes\millionseyeswebapi\MillionsEyesWebApi\obj\Debug\MillionsEyesWebApi.dll
 D:\GitHub\MillionEyes\MillionsEyes\millionseyeswebapi\MillionsEyesWebApi\obj\Debug\MillionsEyesWebApi.pdb
-D:\GitRepository\MillionsEyes\millionseyeswebapi\MillionsEyesWebApi\obj\Debug\MillionsEyesWebApi.csprojResolveAssemblyReference.cache
 D:\GitRepository\MillionsEyes\millionseyeswebapi\MillionsEyesWebApi\obj\Debug\MillionsEyesWebApi.csproj.CoreCompileInputs.cache
 D:\GitRepository\MillionsEyes\millionseyeswebapi\MillionsEyesWebApi\obj\Debug\MillionsEyesWebApi.dll
 D:\GitRepository\MillionsEyes\millionseyeswebapi\MillionsEyesWebApi\obj\Debug\MillionsEyesWebApi.pdb
@@ -453,3 +452,17 @@ D:\GitHub\MillionEyes\MillionsEyes\millionseyeswebapi\MillionsEyesWebApi\bin\Uni
 D:\GitHub\MillionEyes\MillionsEyes\millionseyeswebapi\MillionsEyesWebApi\bin\WebActivatorEx.dll
 D:\GitRepository\MillionsEyes\millionseyeswebapi\MillionsEyesWebApi\bin\Swashbuckle.Core.dll
 D:\GitHub\MillionEyes\MillionsEyes\millionseyeswebapi\MillionsEyesWebApi\bin\Swashbuckle.Core.dll
+D:\GitRepository\MillionsEyes\millionseyeswebapi\MillionsEyesWebApi\bin\nunit.framework.dll
+D:\GitRepository\MillionsEyes\millionseyeswebapi\MillionsEyesWebApi\bin\nunit.framework.pdb
+D:\GitRepository\MillionsEyes\millionseyeswebapi\MillionsEyesWebApi\bin\nunit.framework.xml
+D:\GitRepository\MillionsEyes\millionseyeswebapi\MillionsEyesWebApi\bin\Castle.Core.dll
+D:\GitRepository\MillionsEyes\millionseyeswebapi\MillionsEyesWebApi\bin\Moq.dll
+D:\GitRepository\MillionsEyes\millionseyeswebapi\MillionsEyesWebApi\bin\NSubstitute.dll
+D:\GitRepository\MillionsEyes\millionseyeswebapi\MillionsEyesWebApi\bin\System.Threading.Tasks.Extensions.dll
+D:\GitRepository\MillionsEyes\millionseyeswebapi\MillionsEyesWebApi\bin\System.ValueTuple.dll
+D:\GitRepository\MillionsEyes\millionseyeswebapi\MillionsEyesWebApi\bin\Castle.Core.xml
+D:\GitRepository\MillionsEyes\millionseyeswebapi\MillionsEyesWebApi\bin\Moq.pdb
+D:\GitRepository\MillionsEyes\millionseyeswebapi\MillionsEyesWebApi\bin\Moq.xml
+D:\GitRepository\MillionsEyes\millionseyeswebapi\MillionsEyesWebApi\bin\System.Threading.Tasks.Extensions.xml
+D:\GitRepository\MillionsEyes\millionseyeswebapi\MillionsEyesWebApi\bin\System.ValueTuple.xml
+D:\GitRepository\MillionsEyes\millionseyeswebapi\MillionsEyesWebApi\obj\Debug\MillionsEyesWebApi.csprojResolveAssemblyReference.cache

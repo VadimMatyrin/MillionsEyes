@@ -5,7 +5,6 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
-using System.Threading.Tasks;
 
 namespace MillionsEyesWebApi.Repository
 {
@@ -18,7 +17,148 @@ namespace MillionsEyesWebApi.Repository
             _helper = helper;
         }
 
-        public QueueMetricViewModel CreateMetricModel(List<IncomingMetrics> incomingMetrics)
+        public QueueMetricViewModel GetAllMetrics()
+        {
+            string[] queues = ConfigurationManager.AppSettings["QueueNames"].Split(',');
+            List<string> messages = new List<string>();
+            Request.Request.Timestamp = GetDefaultTimestamp();
+            Request.Request.Interval = GetDefaultInterval();
+            Request.Request.MetricName = GetDefaultMetricName();
+            foreach (var queue in queues)
+            {
+                Request.Request.EntityName = queue;
+
+                string url = $"{Settings.BaseUrl}/subscriptions/{Settings.SubscriptionId}/" +
+                               $"resourceGroups/{Request.Request.ResourceGroup}/" +
+                               $"providers/{Request.Request.Provider}/" +
+                               $"namespaces/{Request.Request.ServiceBusNameSpace}/" +
+                               $"providers/{Request.Request.InsightProvider}/" +
+                               $"metrics?timespan={Request.Request.Timestamp}" +
+                               $"&interval={Request.Request.Interval}" +
+                               $"&metric={Request.Request.MetricName}" +
+                               $"&aggregation={Settings.Aggregation}" +
+                               $"&$filter=EntityName eq '{Request.Request.EntityName}'" +
+                               $"&{Settings.ApiVersion}";
+
+                var message = _helper.GetMethodAsync(url);
+                messages.Add(message.Result);
+            }
+            var metrics = DeserializeToObject(messages);
+            var model = CreateMetricModel(metrics);
+            return model;
+        }
+
+        public QueueMetricViewModel GetMetricsForHours(int hour, int interval)
+        {
+            string timestamp = GetTimestampForHour(hour);
+            string timeInterval = GetIntervalForHour(interval);
+            if (interval == 60)
+            {
+                timeInterval = GetInterval(1);
+            }
+            string[] queues = ConfigurationManager.AppSettings["QueueNames"].Split(',');
+            List<string> messages = new List<string>();
+            Request.Request.Timestamp = timestamp;
+            Request.Request.Interval = timeInterval;
+
+            foreach (var queue in queues)
+            {
+                Request.Request.EntityName = queue;
+
+                string url = $"{Settings.BaseUrl}/subscriptions/{Settings.SubscriptionId}/" +
+                               $"resourceGroups/{Request.Request.ResourceGroup}/" +
+                               $"providers/{Request.Request.Provider}/" +
+                               $"namespaces/{Request.Request.ServiceBusNameSpace}/" +
+                               $"providers/{Request.Request.InsightProvider}/" +
+                               $"metrics?timespan={Request.Request.Timestamp}" +
+                               $"&interval={Request.Request.Interval}" +
+                               $"&metric={Request.Request.MetricName}" +
+                               $"&aggregation={Settings.Aggregation}" +
+                               $"&$filter=EntityName eq '{Request.Request.EntityName}'" +
+                               $"&{Settings.ApiVersion}";
+
+                var message = _helper.GetMethodAsync(url);
+                messages.Add(message.Result);
+            }
+            var metrics = DeserializeToObject(messages);
+            var model = CreateMetricModel(metrics);
+            return model;
+        }
+
+        public QueueMetricViewModel GetMetricsForPeriod(DateTime startTime, DateTime endTime, int hour)
+        {
+            string[] queues = ConfigurationManager.AppSettings["QueueNames"].Split(',');
+            List<string> messages = new List<string>();
+            string timestamp = GetTimestamp(startTime, endTime);
+            string interval = GetIntervalForHour(hour);
+            if (hour == 60)
+            {
+                interval = GetInterval(1);
+            }
+            Request.Request.Timestamp = timestamp;
+            Request.Request.Interval = interval;
+            foreach (var queue in queues)
+            {
+                Request.Request.EntityName = queue;
+
+                string url = $"{Settings.BaseUrl}/subscriptions/{Settings.SubscriptionId}/" +
+                               $"resourceGroups/{Request.Request.ResourceGroup}/" +
+                               $"providers/{Request.Request.Provider}/" +
+                               $"namespaces/{Request.Request.ServiceBusNameSpace}/" +
+                               $"providers/{Request.Request.InsightProvider}/" +
+                               $"metrics?timespan={Request.Request.Timestamp}" +
+                               $"&interval={Request.Request.Interval}" +
+                               $"&metric={Request.Request.MetricName}" +
+                               $"&aggregation={Settings.Aggregation}" +
+                               $"&$filter=EntityName eq '{Request.Request.EntityName}'" +
+                               $"&{Settings.ApiVersion}";
+
+                var message = _helper.GetMethodAsync(url);
+                messages.Add(message.Result);
+            }
+            var metrics = DeserializeToObject(messages);
+            var model = CreateMetricModel(metrics);
+            return model;
+        }
+
+        public QueueMetricViewModel GetMetricsByName(int hour, string metricName)
+        {
+            string[] queues = ConfigurationManager.AppSettings["QueueNames"].Split(',');
+            List<string> messages = new List<string>();
+            string timestamp = GetDefaultTimestamp();
+            string interval = GetIntervalForHour(hour);
+            if (hour == 60)
+            {
+                interval = GetInterval(1);
+            }
+            Request.Request.Timestamp = timestamp;
+            Request.Request.Interval = interval;
+            Request.Request.MetricName = metricName;
+            foreach (var queue in queues)
+            {
+                Request.Request.EntityName = queue;
+
+                string url = $"{Settings.BaseUrl}/subscriptions/{Settings.SubscriptionId}/" +
+                               $"resourceGroups/{Request.Request.ResourceGroup}/" +
+                               $"providers/{Request.Request.Provider}/" +
+                               $"namespaces/{Request.Request.ServiceBusNameSpace}/" +
+                               $"providers/{Request.Request.InsightProvider}/" +
+                               $"metrics?timespan={Request.Request.Timestamp}" +
+                               $"&interval={Request.Request.Interval}" +
+                               $"&metric={Request.Request.MetricName}" +
+                               $"&aggregation={Settings.Aggregation}" +
+                               $"&$filter=EntityName eq '{Request.Request.EntityName}'" +
+                               $"&{Settings.ApiVersion}";
+
+                var message = _helper.GetMethodAsync(url);
+                messages.Add(message.Result);
+            }
+            var metrics = DeserializeToObject(messages);
+            var model = CreateMetricModel(metrics);
+            return model;
+        }
+
+        private QueueMetricViewModel CreateMetricModel(List<IncomingMetrics> incomingMetrics)
         {
             List<QueueMetricModel> metricModels = new List<QueueMetricModel>();
             QueueMetricViewModel model = new QueueMetricViewModel();
@@ -44,43 +184,13 @@ namespace MillionsEyesWebApi.Repository
                             metricModels.Add(metricModel);
                         }
                     }
-
                 }
             }
-
             model.QueueMetrics = metricModels;
             return model;
         }
 
-        public List<string> GetAllMetrics()
-        {
-            string[] queues = ConfigurationManager.AppSettings["QueueNames"].Split(',');
-            List<string> messages = new List<string>();
-            Request.Request.Timestamp = GetDefaultTimestamp();
-            Request.Request.Interval = GetDefaultInterval();
-            foreach (var queue in queues)
-            {
-                Request.Request.EntityName = queue;
-
-                string url = $"{Settings.BaseUrl}/subscriptions/{Settings.SubscriptionId}/" +
-                               $"resourceGroups/{Request.Request.ResourceGroup}/" +
-                               $"providers/{Request.Request.Provider}/" +
-                               $"namespaces/{Request.Request.ServiceBusNameSpace}/" +
-                               $"providers/{Request.Request.InsightProvider}/" +
-                               $"metrics?timespan={Request.Request.Timestamp}" +
-                               $"&interval={Request.Request.Interval}" +
-                               $"&metric={Request.Request.Metrics}" +
-                               $"&aggregation={Settings.Aggregation}" +
-                               $"&$filter=EntityName eq '{Request.Request.EntityName}'" +
-                               $"&{Settings.ApiVersion}";
-
-                var message = _helper.GetMethodAsync(url);
-                messages.Add(message.Result);
-            }
-            return messages;
-        }
-
-        public List<IncomingMetrics> DeserializeToObject(List<string> messages)
+        private List<IncomingMetrics> DeserializeToObject(List<string> messages)
         {
             List<IncomingMetrics> metrics = new List<IncomingMetrics>();
             foreach (string message in messages)
@@ -92,75 +202,6 @@ namespace MillionsEyesWebApi.Repository
             return metrics;
         }
 
-        public List<string> GetMetricsForHours(int hour, int interval)
-        {
-            string timestamp = GetTimestampForHour(hour);
-            string timeInterval = GetIntervalForHour(interval);
-            if (interval == 60)
-            {
-                timeInterval = GetInterval(1);
-            }
-            string[] queues = ConfigurationManager.AppSettings["QueueNames"].Split(',');
-            List<string> messages = new List<string>();
-            Request.Request.Timestamp = timestamp;
-            Request.Request.Interval = timeInterval;
-
-            foreach (var queue in queues)
-            {
-                Request.Request.EntityName = queue;
-
-                string url = $"{Settings.BaseUrl}/subscriptions/{Settings.SubscriptionId}/" +
-                               $"resourceGroups/{Request.Request.ResourceGroup}/" +
-                               $"providers/{Request.Request.Provider}/" +
-                               $"namespaces/{Request.Request.ServiceBusNameSpace}/" +
-                               $"providers/{Request.Request.InsightProvider}/" +
-                               $"metrics?timespan={Request.Request.Timestamp}" +
-                               $"&interval={Request.Request.Interval}" +
-                               $"&metric={Request.Request.Metrics}" +
-                               $"&aggregation={Settings.Aggregation}" +
-                               $"&$filter=EntityName eq '{Request.Request.EntityName}'" +
-                               $"&{Settings.ApiVersion}";
-
-                var message = _helper.GetMethodAsync(url);
-                messages.Add(message.Result);
-            }
-            return messages;
-        }
-
-        public List<string> GetMetricsForPeriod(DateTime startTime, DateTime endTime, int hour)
-        {
-            string[] queues = ConfigurationManager.AppSettings["QueueNames"].Split(',');
-            List<string> messages = new List<string>();
-            string timestamp = GetTimestamp(startTime, endTime);
-            string interval = GetIntervalForHour(hour);
-            if (hour == 60)
-            {
-                interval = GetInterval(1);
-            }
-            Request.Request.Timestamp = timestamp;
-            Request.Request.Interval = interval;
-            foreach (var queue in queues)
-            {
-                Request.Request.EntityName = queue;
-
-                string url = $"{Settings.BaseUrl}/subscriptions/{Settings.SubscriptionId}/" +
-                               $"resourceGroups/{Request.Request.ResourceGroup}/" +
-                               $"providers/{Request.Request.Provider}/" +
-                               $"namespaces/{Request.Request.ServiceBusNameSpace}/" +
-                               $"providers/{Request.Request.InsightProvider}/" +
-                               $"metrics?timespan={Request.Request.Timestamp}" +
-                               $"&interval={Request.Request.Interval}" +
-                               $"&metric={Request.Request.Metrics}" +
-                               $"&aggregation={Settings.Aggregation}" +
-                               $"&$filter=EntityName eq '{Request.Request.EntityName}'" +
-                               $"&{Settings.ApiVersion}";
-
-                var message = _helper.GetMethodAsync(url);
-                messages.Add(message.Result);
-            }
-            return messages;
-        }
-
         private string GetTimestampForHour(int hour)
         {
             DateTime startDate = DateTime.Now.AddHours(-hour);
@@ -170,7 +211,7 @@ namespace MillionsEyesWebApi.Repository
         }
         private string GetDefaultTimestamp()
         {
-            DateTime startDate = DateTime.Now.AddDays(-1);
+            DateTime startDate = DateTime.Now.AddDays(-5);
             DateTime endDate = DateTime.Now;
             string timestamp = GetTimestamp(startDate, endDate);
             return timestamp;
@@ -185,10 +226,12 @@ namespace MillionsEyesWebApi.Repository
             return timestamp;
         }
 
-        private string GetDefaultInterval() => "PT1H";
+        private string GetDefaultInterval() => "PT30M";
 
         private string GetInterval(int interval) => $"PT{interval}H";
 
         private string GetIntervalForHour(int interval) => $"PT{interval}M";
+
+        private string GetDefaultMetricName() => "IncomingRequests";
     }
 }

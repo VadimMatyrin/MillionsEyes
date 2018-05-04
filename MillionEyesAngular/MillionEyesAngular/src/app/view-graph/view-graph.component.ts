@@ -130,9 +130,12 @@ export class ViewGraphComponent implements OnInit {
   }
 
   metrics: Array<Metric> = [];
+  // tslint:disable-next-line:no-inferrable-types
   interval: number = 1;
   hoursCount: number;
   dataRange: IMyDateRangeModel;
+
+  metricName: string;
 
   serviceBusOptions;
   queuesOptions;
@@ -171,7 +174,7 @@ export class ViewGraphComponent implements OnInit {
   }
 
   formSeries(m: Array<Metric>) {
-    let series = [];
+    const series = [];
 
     for (let i = 0; i < m.length; i++) {
         series.push({
@@ -196,7 +199,7 @@ export class ViewGraphComponent implements OnInit {
           this.updateServiceBusGraph(m);
         });
 
-    this.queuesService.getForLastHours(hoursCount, this.interval).subscribe(m =>{
+    this.queuesService.getForLastHours(hoursCount, this.interval).subscribe(m => {
           this.updateQueuesGraph(m);
     });
   }
@@ -225,7 +228,7 @@ export class ViewGraphComponent implements OnInit {
   changeInterval(interval: number) {
     this.serviceBusChart.showLoading();
     this.queuesChart.showLoading();
-    
+
     interval = interval;
 
     if (this.hoursCount === 0) {
@@ -234,4 +237,13 @@ export class ViewGraphComponent implements OnInit {
         this.changeLastHoursCount(this.hoursCount);
     }
   }
+
+  changeMetricName(metricName: string) {
+    this.queuesChart.showLoading();
+
+    this. metricName = metricName;
+    this.queuesService.changeMetric(this.interval, this.metricName).subscribe(m => {
+      this.updateQueuesGraph(m);
+    });
+}
 }

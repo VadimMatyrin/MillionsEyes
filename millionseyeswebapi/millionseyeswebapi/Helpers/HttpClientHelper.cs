@@ -9,9 +9,6 @@ namespace MillionsEyesWebApi.Helpers
     {
         private string _header;
 
-        public HttpClientHelper()
-        {
-        }
 
         public HttpClientHelper(string tenantId, string clientId, string secret)
         {

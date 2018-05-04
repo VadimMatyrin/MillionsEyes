@@ -40,6 +40,23 @@
               <button class="btn btn-success" (click)="changeInterval(interval)">Submit</button>
           </div>
       </div>
+      <div class="form-group">
+        <div>
+            <p>Select metric name:</p>
+        </div>
+        <div>
+            <select class="selectpicker show-tick" [(ngModel)]="metricName">
+                <option value="IncomingMessages" selected>Incoming messages</option>
+                <option value="IncomingRequests">Incoming requests</option>
+                <option value="OutgoingMessages">Outgoing messages</option>
+                <option value="SuccessfulRequests">Successful requests</option>
+                <option value="ActiveMessages">Active messages</option>
+            </select>                      
+        </div>
+        <div>
+            <button class="btn btn-success" (click)="changeMetricName(metricName)">Submit</button>
+        </div>
+    </div>
   </div>
 </div>
 

@@ -7,14 +7,12 @@ namespace MillionsEyesWebApi.Models
 {
     public interface IQueuesMetricRepository
     {
-        List<string> GetMetricsForHours(int hour, int interval);
+        QueueMetricViewModel GetMetricsForHours(int hour, int interval);
 
-        List<string> GetMetricsForPeriod(DateTime startTime, DateTime endTimem, int interval);
+        QueueMetricViewModel GetMetricsForPeriod(DateTime startTime, DateTime endTimem, int interval);
 
-        List<string> GetAllMetrics();
+        QueueMetricViewModel GetMetricsByName(int interval, string metricName);
 
-        QueueMetricViewModel CreateMetricModel(List<IncomingMetrics> incomingMetric);
-
-        List<IncomingMetrics> DeserializeToObject(List<string> messages);
+        QueueMetricViewModel GetAllMetrics();
     }
 }

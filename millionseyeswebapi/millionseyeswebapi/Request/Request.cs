@@ -68,18 +68,10 @@ namespace MillionsEyesWebApi.Request
             get;
             set;
         }
-        public static string Metrics
+        public static string MetricName
         {
-            get
-            {
-                List<string> metrics = new List<string>();
-                metrics.Add("IncomingRequests");
-                string result = ConvertStringArrayToString(metrics);
-                return result;
-            }
-            set
-            {
-            }
+            get;
+            set;
         }
 
         private static string ConvertStringArrayToString(List<string> metrics)
