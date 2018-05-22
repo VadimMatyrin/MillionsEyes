@@ -50,6 +50,7 @@ namespace MillionsEyesWebApi.Repository
 
         public QueueMetricViewModel GetMetricsForHours(int hour, int interval)
         {
+            GetMetricsForPeriod(DateTime.Now.AddDays(-30), DateTime.Now, 1);
             string timestamp = GetTimestampForHour(hour);
             string timeInterval = GetIntervalForHour(interval);
             if (interval == 60)
@@ -87,6 +88,7 @@ namespace MillionsEyesWebApi.Repository
 
         public QueueMetricViewModel GetMetricsForPeriod(DateTime startTime, DateTime endTime, int hour)
         {
+            GetMetricsForPeriod(DateTime.Now.AddDays(-30), DateTime.Now, 1);
             string[] queues = ConfigurationManager.AppSettings["QueueNames"].Split(',');
             List<string> messages = new List<string>();
             string timestamp = GetTimestamp(startTime, endTime);
@@ -123,6 +125,7 @@ namespace MillionsEyesWebApi.Repository
 
         public QueueMetricViewModel GetMetricsByName(int hour, string metricName)
         {
+            GetMetricsForPeriod(DateTime.Now.AddDays(-30), DateTime.Now, 1);
             string[] queues = ConfigurationManager.AppSettings["QueueNames"].Split(',');
             List<string> messages = new List<string>();
             string timestamp = GetDefaultTimestamp();
@@ -211,7 +214,7 @@ namespace MillionsEyesWebApi.Repository
         }
         private string GetDefaultTimestamp()
         {
-            DateTime startDate = DateTime.Now.AddDays(-5);
+            DateTime startDate = DateTime.Now.AddDays(-1);
             DateTime endDate = DateTime.Now;
             string timestamp = GetTimestamp(startDate, endDate);
             return timestamp;
