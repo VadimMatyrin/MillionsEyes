@@ -1,13 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using MillionsEyesWebApi.Models.MetricModels;
+using System.Collections.Generic;
 
-namespace MillionsEyesWebApi.Models.QueuesViewModel
+namespace MillionsEyesWebApi.Models.QueuesModels
 {
-    public class QueueMetricModel
+    public class QueueMetricModel : MetricModel
     {
         public string QueueName { get; set; }
-
-        public string MetricName { get; set; }
-
-        public List<QueueMetric> QueueMetrics { get; set; }
     }
 }

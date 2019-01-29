@@ -1,13 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 import { MetricsService } from '../shared/metrics.service';
 import { Metric } from '../shared/metric.model';
-import {IMyDrpOptions, IMyDateRange} from 'mydaterangepicker';
-import {IMyDateRangeModel} from 'mydaterangepicker';
+import { IMyDrpOptions, IMyDateRange } from 'mydaterangepicker';
+import { IMyDateRangeModel } from 'mydaterangepicker';
 import * as moment from 'moment';
 import Highcharts = require('highcharts');
 import { QueueService } from '../shared/queue.service';
-
-declare var jQuery: any;
+import { getLocaleDateFormat } from '@angular/common';
+import { HourOption } from '../shared/hourOption';
+import { environment } from "../../environments/environment.prod";
+import { options } from '../config/config';
 
 @Component({
   selector: 'app-view-graph',
@@ -27,20 +29,20 @@ export class ViewGraphComponent implements OnInit {
         height: 500,
       },
       title: {
-          text: 'Service Bus Metrics',
-          marginLeft: 'auto',
-          marginRight: 'auto'
+        text: 'Service Bus Metrics',
+        marginLeft: 'auto',
+        marginRight: 'auto'
       },
       subtitle: {
-          text: 'MillionsEyes',
-          marginLeft: 'auto',
-          marginRight: 'auto',
+        text: 'MillionsEyes',
+        marginLeft: 'auto',
+        marginRight: 'auto',
       },
       xAxis: {
         type: 'datetime'
       },
       tooltip: {
-          pointFormat: '{series.name}: {point.y}'
+        pointFormat: '{series.name}: {point.y}'
       },
       loading: {
         hideDuration: 1000,
@@ -58,17 +60,17 @@ export class ViewGraphComponent implements OnInit {
       },
       plotOptions: {
         area: {
-         stacking: 'normal',
-           marker: {
-               enabled: false,
-               symbol: 'circle',
-               radius: 3,
-               states: {
-                   hover: {
-                       enabled: true
-                   }
-               }
-           }
+          //stacking: 'normal',
+          marker: {
+            enabled: false,
+            symbol: 'circle',
+            radius: 3,
+            states: {
+              hover: {
+                enabled: true
+              }
+            }
+          }
         }
       }
     };
@@ -77,25 +79,25 @@ export class ViewGraphComponent implements OnInit {
       chart: {
         type: 'area',
         zoomType: 'x',
-        panning: true,
+       // panning: true,
         panKey: 'shift',
         height: 500,
       },
       title: {
-          text: 'Queues Metrics',
-          marginLeft: 'auto',
-          marginRight: 'auto'
+        text: 'Queues Metrics',
+        marginLeft: 'auto',
+        marginRight: 'auto'
       },
       subtitle: {
-          text: 'MillionsEyes',
-          marginLeft: 'auto',
-          marginRight: 'auto',
+        text: 'MillionsEyes',
+        marginLeft: 'auto',
+        marginRight: 'auto',
       },
       xAxis: {
         type: 'datetime'
       },
       tooltip: {
-          pointFormat: '{series.name}: {point.y}'
+        pointFormat: '{series.name}: {point.y}'
       },
       loading: {
         hideDuration: 1000,
@@ -113,30 +115,42 @@ export class ViewGraphComponent implements OnInit {
       },
       plotOptions: {
         area: {
-         stacking: 'normal',
-           marker: {
-               enabled: false,
-               symbol: 'circle',
-               radius: 3,
-               states: {
-                   hover: {
-                       enabled: true
-                   }
-               }
-           }
+          //stacking: 'normal',
+          marker: {
+            enabled: false,
+            symbol: 'circle',
+            radius: 3,
+            states: {
+              hover: {
+                enabled: true
+              }
+            }
+          }
         }
       }
     };
+
+    for (let button of options.buttonOptions) {
+      this.hourOptions.push(new HourOption(button.text, button.hoursCount));
+    }
   }
 
+  hourOptions: Array<HourOption> = [];
   metrics: Array<Metric> = [];
-  // tslint:disable-next-line:no-inferrable-types
   interval: number = 1;
-  hoursCount: number;
-  dataRange: IMyDateRangeModel;
+  hoursCount: number = 1;
+  set dateRange(value: IMyDateRangeModel) {
+    this._dateRange = value;
+    this.hoursCount = 0;
+  }
+  get dateRange(): IMyDateRangeModel {
+    return this._dateRange;
+  }
+  _dateRange: IMyDateRangeModel;
 
-  metricName: string;
-
+  metricName: string = "Any";
+  isBusLoading: boolean = true;
+  isQueuesLoading: boolean = true;
   serviceBusOptions;
   queuesOptions;
 
@@ -148,13 +162,15 @@ export class ViewGraphComponent implements OnInit {
   };
 
   ngOnInit() {
-    this.serviceBusService.get().subscribe(m => {
-        this.updateServiceBusGraph(m);
-      });
 
-      this.queuesService.get().subscribe(m => {
-        this.updateQueuesGraph(m);
-      });
+    this.serviceBusService.get().subscribe(m => {
+      this.updateServiceBusGraph(m);
+    });
+
+    this.queuesService.get().subscribe(m => {
+      this.updateQueuesGraph(m);
+    });
+
   }
 
   updateServiceBusGraph(m: Array<Metric>) {
@@ -163,6 +179,8 @@ export class ViewGraphComponent implements OnInit {
     this.serviceBusOptions.series = this.formSeries(m);
 
     this.serviceBusChart = Highcharts.chart('container', this.serviceBusOptions);
+
+    this.stopShowingBusLoading();
   }
 
   updateQueuesGraph(m: Array<Metric>) {
@@ -171,79 +189,83 @@ export class ViewGraphComponent implements OnInit {
     this.queuesOptions.series = this.formSeries(m);
 
     this.queuesChart = Highcharts.chart('queue-container', this.queuesOptions);
+
+    this.stopShowingQueuesLoading();
   }
 
   formSeries(m: Array<Metric>) {
     const series = [];
 
     for (let i = 0; i < m.length; i++) {
-        series.push({
-            name: m[i].metricName,
-            data: []
-        });
-        for (let j = 0; j < m[i].points.length; j++) {
-            series[i].data.push([m[i].points[j].date.getTime(), m[i].points[j].count]);
-        }
+      series.push({
+        name: m[i].metricName,
+        data: []
+      });
+      for (let j = 0; j < m[i].points.length; j++) {
+        series[i].data.push([m[i].points[j].date.getTime(), m[i].points[j].count]);
+      }
     }
 
     return series;
   }
 
   changeLastHoursCount(hoursCount: number) {
-    this.serviceBusChart.showLoading();
-    this.queuesChart.showLoading();
     this.hoursCount = hoursCount;
-    this.dataRange = null;
-
-    this.serviceBusService.getForLastHours(hoursCount, this.interval).subscribe(m => {
-          this.updateServiceBusGraph(m);
-        });
-
-    this.queuesService.getForLastHours(hoursCount, this.interval).subscribe(m => {
-          this.updateQueuesGraph(m);
-    });
-  }
-
-  changeDateRange(dataRange: IMyDateRangeModel) {
-    this.serviceBusChart.showLoading();
-    this.queuesChart.showLoading();
-
-    this.hoursCount = 0;
-    this.dataRange = dataRange;
-
-    // tslint:disable-next-line:prefer-const
-    let date1: Date = dataRange.beginJsDate;
-    // tslint:disable-next-line:prefer-const
-    let date2: Date = dataRange.endJsDate;
-
-    this.serviceBusService.getForTimeInterval(date1, date2, this.interval).subscribe(m => {
-          this.updateServiceBusGraph(m);
-        });
-
-    this.queuesService.getForTimeInterval(date1, date2, this.interval).subscribe(m => {
-          this.updateQueuesGraph(m);
-    });
+    this._dateRange = null;
   }
 
   changeInterval(interval: number) {
+    this.interval = interval;
+  }
+
+  convertDateToUTC(date: Date) {
+    return new Date(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate(), date.getUTCHours(), date.getUTCMinutes(), date.getUTCSeconds());
+  }
+
+  startShowingLoading() {
     this.serviceBusChart.showLoading();
     this.queuesChart.showLoading();
+    this.isBusLoading = true;
+    this.isQueuesLoading = true;
+  }
 
-    interval = interval;
+  stopShowingBusLoading() {
+    this.isBusLoading = false;
+  }
 
-    if (this.hoursCount === 0) {
-        this.changeDateRange(this.dataRange);
-    } else {
-        this.changeLastHoursCount(this.hoursCount);
+  stopShowingQueuesLoading() {
+    this.isQueuesLoading = false;
+  }
+
+  applyFilters() {
+    this.startShowingLoading();
+
+    let startDate: Date;
+    let endDate: Date;
+
+    if (this._dateRange === undefined || this._dateRange === null) {
+      startDate = this.convertDateToUTC(new Date());
+      endDate = this.convertDateToUTC(new Date());
+      startDate.setHours(startDate.getHours() - this.hoursCount);
     }
+    else {
+      startDate = this._dateRange.beginJsDate;
+      endDate = this._dateRange.endJsDate;
+    }
+
+    this.queuesService.getForFilters(this.metricName, startDate, endDate, this.interval).subscribe(m => {
+      this.updateQueuesGraph(m);
+    });
+
+    this.serviceBusService.getForFilters(this.metricName, startDate, endDate, this.interval).subscribe(m => {
+      this.updateServiceBusGraph(m);
+    });
+
   }
 
   changeMetricName(metricName: string) {
-    this.queuesChart.showLoading();
 
-    this. metricName = metricName;
-    this.queuesService.changeMetric(this.interval, this.metricName).subscribe(m => {
-      this.updateQueuesGraph(m);
-    });
-}
+    this.metricName = metricName;
+
+  }
 }

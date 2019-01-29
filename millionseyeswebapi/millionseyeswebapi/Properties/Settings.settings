@@ -3,30 +3,47 @@
   <Profiles />
   <Settings>
     <Setting Name="TenantId" Type="System.String" Scope="Application">
-      <Value Profile="(Default)">671bf056-a18a-42da-bfb8-5fec3a3675d6</Value>
+      <Value Profile="(Default)">f16593fa-a42d-44cd-b2be-e8393b6251e0</Value>
     </Setting>
     <Setting Name="ClientId" Type="System.String" Scope="Application">
-      <Value Profile="(Default)">27a8e9a3-9474-45e9-8266-fadb54d47aa7</Value>
+      <Value Profile="(Default)">89e347b2-bfc0-44c5-8516-71802628634c</Value>
     </Setting>
     <Setting Name="Secret" Type="System.String" Scope="Application">
-      <Value Profile="(Default)">dEPqmhb2vgTTA0vDkN2NuFXBtxC2BJTY663pMvWYK1Y=</Value>
+      <Value Profile="(Default)">icK4J7odGmV/qWT314shpo4uapaZA41VStT1KC7ilak=</Value>
     </Setting>
     <Setting Name="SubscriptionId" Type="System.String" Scope="Application">
-      <Value Profile="(Default)">a8c0569d-945b-4c9a-9108-7b38bd2b40be</Value>
+      <Value Profile="(Default)">96e70c1f-c8c4-4b32-9b8e-d157097ad4a2</Value>
     </Setting>
     <Setting Name="ResourseGroupName" Type="System.String" Scope="Application">
-      <Value Profile="(Default)">Resources</Value>
+      <Value Profile="(Default)">MillionEyesResources</Value>
     </Setting>
     <Setting Name="ServiceBusName" Type="System.String" Scope="Application">
-      <Value Profile="(Default)">MillionsEyes</Value>
+      <Value Profile="(Default)">MillionEyes</Value>
     </Setting>
-    <Setting Name="ServiceBusMetricsList" Type="System.Collections.Specialized.StringCollection" Scope="Application">
+    <Setting Name="ServiceBusMetricsList" Type="System.Collections.Generic.List&lt;System.String&gt;" Scope="Application">
       <Value Profile="(Default)">&lt;?xml version="1.0" encoding="utf-16"?&gt;
 &lt;ArrayOfString xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema"&gt;
-  &lt;string&gt;IncomingMessages&lt;/string&gt;
-  &lt;string&gt;OutgoingMessages&lt;/string&gt;
-  &lt;string&gt;IncomingRequests&lt;/string&gt;
+&lt;string&gt;IncomingMessages&lt;/string&gt;
+&lt;string&gt;OutgoingMessages&lt;/string&gt;
+&lt;string&gt;IncomingRequests&lt;/string&gt;
 &lt;/ArrayOfString&gt;</Value>
+    </Setting>
+    <Setting Name="Provider" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">Microsoft.ServiceBus</Value>
+    </Setting>
+    <Setting Name="Aggregation" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">total</Value>
+    </Setting>
+    <Setting Name="QueueNames" Type="System.Collections.Generic.List&lt;System.String&gt;" Scope="Application">
+      <Value Profile="(Default)">&lt;?xml version="1.0" encoding="utf-16"?&gt;
+&lt;SerializableConnectionString xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema"&gt;
+  &lt;ConnectionString&gt;&amp;lt;?xml version="1.0" encoding="utf-16"?&amp;gt;
+&amp;lt;ArrayOfString xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema"&amp;gt;
+&amp;lt;string&amp;gt;adminservice&amp;lt;/string&amp;gt;
+&amp;lt;string&amp;gt;optimizer&amp;lt;/string&amp;gt;
+&amp;lt;string&amp;gt;puller&amp;lt;/string&amp;gt;
+&amp;lt;string&amp;gt;pusher&amp;lt;/string&amp;gt;&amp;lt;/ArrayOfString&amp;gt;&lt;/ConnectionString&gt;
+&lt;/SerializableConnectionString&gt;</Value>
     </Setting>
   </Settings>
 </SettingsFile>

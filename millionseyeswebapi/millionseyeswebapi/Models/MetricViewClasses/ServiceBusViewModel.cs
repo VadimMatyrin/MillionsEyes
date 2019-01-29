@@ -1,10 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
 
-namespace MillionsEyesWebApi.Models.MetricViewClasses
+namespace MillionsEyesWebApi.Models.MetricModels
 {
     public class ServiceBusViewModel
     {
-        public string MetricName { get; set; }
-        public List<ServiceBusMetricPoint> Points { get; set; }
+        public List<ServiceBusModel> ServiceBusModels { get; set; }
     }
 }

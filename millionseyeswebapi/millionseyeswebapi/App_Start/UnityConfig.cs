@@ -1,10 +1,17 @@
 using MillionsEyesWebApi.Helpers;
+using MillionsEyesWebApi.Interfaces;
 using MillionsEyesWebApi.Models;
+using MillionsEyesWebApi.Models.MetricModels;
+using MillionsEyesWebApi.Models.QueuesModels;
 using MillionsEyesWebApi.Repositories;
 using MillionsEyesWebApi.Repository;
 using System;
 
 using Unity;
+using Unity.Injection;
+using Unity.Lifetime;
+
+using static MillionsEyesWebApi.Properties.Settings;
 
 namespace MillionsEyesWebApi
 {
@@ -40,9 +47,9 @@ namespace MillionsEyesWebApi
         /// </remarks>
         public static void RegisterTypes(IUnityContainer container)
         {
-            container.RegisterType<IServiceBusMetricsRepository, ServiceBusMetricsRepository>();
-            container.RegisterType<IQueuesMetricRepository, QueuesMetricRepository>();
-            container.RegisterInstance(new HttpClientHelper(Settings.TenantId, Settings.ClientId, Settings.Secret));
+            container.RegisterType<IMetricsRepository<ServiceBusModel>, ServiceBusMetricsRepository>();
+            container.RegisterType<IMetricsRepository<QueueMetricModel>, QueuesMetricRepository>();
+            container.RegisterType<IAzureClientHelper, AzureClientHelper>(new InjectionConstructor(Default.TenantId, Default.ClientId, Default.Secret, Default.SubscriptionId));
         }
     }
 }

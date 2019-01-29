@@ -1,47 +1,56 @@
 ﻿using MillionsEyesWebApi.Models;
+using MillionsEyesWebApi.Models.QueuesModels;
 using System;
+using System.Linq;
+using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Cors;
 
 namespace MillionsEyesWebApi.Controllers
 {
-    [RoutePrefix("api/queuemetrics")]
+    [RoutePrefix("api/queueMetrics")]
     [EnableCors("http://localhost:4200", "*", "POST, PUT, DELETE, OPTIONS")]
     public class QueueMetricsController : ApiController
     {
-        private readonly IQueuesMetricRepository _queuesMetricRepository;
+        private readonly IMetricsRepository<QueueMetricModel> _queuesMetricRepository;
 
-        public QueueMetricsController(IQueuesMetricRepository queuesMetricRepository)
+        public QueueMetricsController(IMetricsRepository<QueueMetricModel> queuesMetricRepository)
         {
             _queuesMetricRepository = queuesMetricRepository;
         }
 
         [HttpGet]
-        [Route("getallmetrics")]
-        public IHttpActionResult GetAllMetrics()
+        [Route("getMetricsForHours")]
+        public async Task<QueueMetricViewModel> GetMetricsForHours(int hour, int interval)
         {
-            return Ok(_queuesMetricRepository.GetAllMetrics());
+            var currentDate = DateTime.UtcNow;
+            var models = await _queuesMetricRepository.GetMetricsAsync(interval, currentDate.AddHours(-hour), currentDate);
+
+            var viewModel = new QueueMetricViewModel
+            {
+                QueueMetrics = models.ToList()
+            };
+
+            return viewModel;
         }
 
         [HttpGet]
-        [Route("getmetricsforhours")]
-        public IHttpActionResult GetMetricsForHours(int hour, int interval)
+        [Route("getMetrics")]
+        public async Task<QueueMetricViewModel> GetMetrics(int interval = 1, DateTime? startTime = null, DateTime? endTime = null, string metricName = null)
         {
-            return Ok(_queuesMetricRepository.GetMetricsForHours(hour, interval));
-        }
+            if (startTime == endTime)
+            {
+                startTime = startTime?.AddHours(-1);
+                endTime = endTime?.AddHours(23);
+            }
+            var models = await _queuesMetricRepository.GetMetricsAsync(interval, startTime.Value, endTime.Value, metricName);
 
-        [HttpGet]
-        [Route("getmetricsbyname")]
-        public IHttpActionResult GetMetricsByName(int interval, string metricName)
-        {
-            return Ok(_queuesMetricRepository.GetMetricsByName(interval, metricName));
-        }
+            var viewModel = new QueueMetricViewModel
+            {
+                QueueMetrics = models.ToList()
+            };
 
-        [HttpGet]
-        [Route("getmetricsforperiod")]
-        public IHttpActionResult GetMetricsForPeriod(DateTime startTime, DateTime endTime, int interval)
-        {
-            return Ok(_queuesMetricRepository.GetMetricsForPeriod(startTime, endTime, interval));
+            return viewModel;
         }
     }
 }

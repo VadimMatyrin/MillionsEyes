@@ -16,7 +16,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>MillionsEyesWebApi</RootNamespace>
     <AssemblyName>MillionsEyesWebApi</AssemblyName>
-    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <MvcBuildViews>false</MvcBuildViews>
     <UseIISExpress>true</UseIISExpress>
     <Use64BitIISExpress />
@@ -27,6 +27,7 @@
     <UseGlobalApplicationHostFile />
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -36,6 +37,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <LangVersion>default</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -114,6 +116,7 @@
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.IO.Compression.FileSystem" />
     <Reference Include="System.Net.Http.Formatting, Version=5.2.4.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
@@ -129,18 +132,17 @@
     <Reference Include="System.Web.Cors, Version=5.2.4.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNet.Cors.5.2.4\lib\net45\System.Web.Cors.dll</HintPath>
     </Reference>
+    <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Web.Http, Version=5.2.4.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNet.WebApi.Core.5.2.4\lib\net45\System.Web.Http.dll</HintPath>
     </Reference>
     <Reference Include="System.Web.Http.Cors, Version=5.2.4.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNet.WebApi.Cors.5.2.4\lib\net45\System.Web.Http.Cors.dll</HintPath>
     </Reference>
-    <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Web" />
     <Reference Include="System.Web.Abstractions" />
     <Reference Include="System.Web.Routing" />
@@ -185,6 +187,7 @@
       <Private>True</Private>
       <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
     </Reference>
+    <Reference Include="System.Xml.Linq" />
     <Reference Include="Unity.Abstractions, Version=3.3.0.0, Culture=neutral, PublicKeyToken=6d32ff45e0ccc69f, processorArchitecture=MSIL">
       <HintPath>..\packages\Unity.Abstractions.3.3.0\lib\net45\Unity.Abstractions.dll</HintPath>
     </Reference>
@@ -270,21 +273,13 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Helpers\HttpClientHelper.cs" />
-    <Compile Include="Helpers\Settings.cs" />
-    <Compile Include="Interfaces\IHttpClientHelper.cs" />
-    <Compile Include="Interfaces\IQueuesMetricRepository.cs" />
-    <Compile Include="Interfaces\IServiceBusMetricsRepository.cs" />
-    <Compile Include="Models\GetMetricModel.cs" />
-    <Compile Include="Models\JsonDeserializeClasses\Datum.cs" />
-    <Compile Include="Models\JsonDeserializeClasses\IncomingMetrics.cs" />
-    <Compile Include="Models\JsonDeserializeClasses\Metadatavalues.cs" />
-    <Compile Include="Models\JsonDeserializeClasses\Name.cs" />
-    <Compile Include="Models\JsonDeserializeClasses\Timesery.cs" />
-    <Compile Include="Models\JsonDeserializeClasses\Value.cs" />
-    <Compile Include="Models\MetricViewClasses\ServiceBusMetricPoint.cs" />
+    <Compile Include="Helpers\AzureClientHelper.cs" />
+    <Compile Include="Interfaces\IAzureClientHelper.cs" />
+    <Compile Include="Interfaces\IMetricsRepository.cs" />
+    <Compile Include="Models\MetricModels\Metric.cs" />
+    <Compile Include="Models\MetricModels\MetricModel.cs" />
+    <Compile Include="Models\MetricViewClasses\ServiceBusModel.cs" />
     <Compile Include="Models\MetricViewClasses\ServiceBusViewModel.cs" />
-    <Compile Include="Models\QueuesViewModel\QueueMetric.cs" />
     <Compile Include="Models\QueuesViewModel\QueueMetricModel.cs" />
     <Compile Include="Models\QueuesViewModel\QueueMetricViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -295,7 +290,6 @@
     </Compile>
     <Compile Include="Repositories\QueuesMetricRepository.cs" />
     <Compile Include="Repositories\ServiceBusMetricsRepository.cs" />
-    <Compile Include="Request\Request.cs" />
     <Compile Include="Tests\GetAllMetricsTest.cs" />
   </ItemGroup>
   <ItemGroup>

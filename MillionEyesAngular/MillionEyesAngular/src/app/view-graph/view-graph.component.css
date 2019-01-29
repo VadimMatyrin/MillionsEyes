@@ -6,7 +6,6 @@
 }
 .form-group div{
     display:inline-block;
-    margin-left: 5%;
     height: 50px;
     vertical-align: middle;
 }
@@ -28,3 +27,12 @@
     margin: 2% 29%;
     font-size: 16px; 
 }
+.headerBlock{
+  padding: 10px 0 0 5%;
+  font-weight: 600;
+}
+.btn-hour-block button {
+  width: 100px;
+  margin-left: 10px;
+}
+

@@ -1,90 +1,54 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Azure.Management.Monitor;
-using Microsoft.Rest.Azure.Authentication;
+using MillionsEyesWebApi.Interfaces;
 using MillionsEyesWebApi.Models;
-using MillionsEyesWebApi.Models.JsonDeserializeClasses;
-using MillionsEyesWebApi.Models.MetricViewClasses;
-using Newtonsoft.Json;
+using MillionsEyesWebApi.Models.MetricModels;
 
 using static MillionsEyesWebApi.Properties.Settings;
 
 namespace MillionsEyesWebApi.Repositories
 {
-    public class ServiceBusMetricsRepository : IServiceBusMetricsRepository
+    public class ServiceBusMetricsRepository : IMetricsRepository<ServiceBusModel>
     {
-        public ServiceBusViewModel GetSingleMetricResult(string metricName, DateTime startTime, DateTime finishTime, double interval)
+        private readonly IAzureClientHelper _helper;
+
+        public ServiceBusMetricsRepository(IAzureClientHelper helper)
         {
-            var jsonResult = getJsonResult(metricName, startTime, finishTime, interval);
-            var viewModel = convertJsonToViewModel(jsonResult);
-            return viewModel;
+            _helper = helper;
         }
 
-        public List<ServiceBusViewModel> GetMetricsResult(DateTime startTime, DateTime finishTime, double interval)
+        public async Task<IEnumerable<ServiceBusModel>> GetMetricsAsync(int interval, DateTime startTime, DateTime entTime, string metricName = null)
         {
-            List<ServiceBusViewModel> result = new List<ServiceBusViewModel>();
-
-            Parallel.For(0, Default.ServiceBusMetricsList.Count, (i) =>
+            var models = new List<ServiceBusModel>();
+            if (metricName is null)
             {
-                result.Add(GetSingleMetricResult(Default.ServiceBusMetricsList[i], startTime, finishTime, interval));
-            });
+                var tasks = Default.ServiceBusMetricsList.Select(e => GetMetricsViewModels(interval, startTime, entTime, e));
+                models = (await Task.WhenAll(tasks)).ToList();
+            }
+            else
+                models.Add(await GetMetricsViewModels(interval, startTime, entTime, metricName));
 
-            return result;
+            return models;
         }
 
-        private string getJsonResult(string metricName, DateTime startTime, DateTime finishTime, double interval)
+        private async Task<ServiceBusModel> GetMetricsViewModels(int interval, DateTime startTime, DateTime finishTime, string metricName)
         {
-            var resourceId = $"subscriptions/{Default.SubscriptionId}/resourceGroups/{Default.ResourseGroupName}/providers/Microsoft.ServiceBus/namespaces/{Default.ServiceBusName}";
+            string resourceUri = _helper.ResourseUri;
 
-            var metricsClient = authenticate(Default.TenantId, Default.ClientId, Default.Secret, Default.SubscriptionId).Result;
+            var monitorClient = await _helper.GetMonitorClient();
 
-            //var metricDefinitions = metricsClient.MetricDefinitions.ListAsync(resourceId).Result;
-            //metricDefinitions.Select(x => new { x.Name.Value, x.Unit }).Dump();
-
-            var metrics = metricsClient.Metrics.ListAsync(
-                resourceId,
+            var response = await  monitorClient.Metrics.ListAsync(
+                resourceUri,
                 timespan: $"{startTime:yyyy-MM-ddTHH:mmZ}/{finishTime:yyyy-MM-ddTHH:mmZ}",
                 interval: TimeSpan.FromMinutes(interval),
                 metric: metricName,
-                aggregation: "Total").Result;
+                aggregation: Default.Aggregation);
 
-            var jsonResult = JsonConvert.SerializeObject(metrics, Formatting.Indented);
-
-            return jsonResult;
-        }
-
-        private async Task<MonitorClient> authenticate(string tenantId, string clientId, string secret, string subscriptionId)
-        {
-            var serviceCreds = await ApplicationTokenProvider.LoginSilentAsync(tenantId, clientId, secret);
-            var monitorClient = new MonitorClient(serviceCreds)
-            {
-                SubscriptionId = subscriptionId
-            };
-
-            return monitorClient;
-        }
-
-        private ServiceBusViewModel convertJsonToViewModel(string json)
-        {
-            var root = JsonConvert.DeserializeObject<IncomingMetrics>(json);
-
-            ServiceBusViewModel viewModel = new ServiceBusViewModel
-            {
-                MetricName = root.Value[0].Name.Value,
-                Points = new List<ServiceBusMetricPoint>()
-            };
-
-            foreach (var t in root.Value[0].Timeseries[0].Data)
-            {
-                viewModel.Points.Add(new ServiceBusMetricPoint()
-                {
-                    Time = t.TimeStamp.AddHours(3).ToUniversalTime(),
-                    Count = Convert.ToInt32(t.Total)
-                });
-            }
-
-            return viewModel;
+            var model = _helper.AzureResponseToViewModel<ServiceBusModel>(response);
+            return model;
         }
     }
 }

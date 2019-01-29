@@ -1,42 +1,59 @@
-﻿using MillionsEyesWebApi.Models.MetricViewClasses;
+﻿using MillionsEyesWebApi.Models;
+using MillionsEyesWebApi.Models.MetricModels;
 using System;
-using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Cors;
-using System.Web.Http.Description;
 
 namespace MillionsEyesWebApi.Controllers
 {
-    [EnableCors("http://localhost:4200", "*", "POST, PUT, DELETE, OPTIONS")]
+    [RoutePrefix("api/serviceBusMetrics")]
+    [EnableCors("http://localhost:4200", "*", "GET, POST, PUT, DELETE, OPTIONS")]
     public class ServiceBusMetricsController : ApiController
     {
-        private readonly IServiceBusMetricsRepository _serviceBusMetricsRepository;
+        private readonly IMetricsRepository<ServiceBusModel> _serviceBusMetricsRepository;
 
-        public ServiceBusMetricsController(IServiceBusMetricsRepository serviceBusMetricsRepository)
+        public ServiceBusMetricsController(IMetricsRepository<ServiceBusModel> serviceBusMetricsRepository)
         {
             _serviceBusMetricsRepository = serviceBusMetricsRepository;
         }
 
         [HttpGet]
-        [ResponseType(typeof(List<ServiceBusViewModel>))]
-        public IHttpActionResult Get(int hoursCount, double interval)
+        [Route("getBusMetricsForHours")]
+        public async Task<ServiceBusViewModel> GetBusMetricsForHours(int hour, int interval)
         {
-            return Ok(_serviceBusMetricsRepository.GetMetricsResult(DateTime.UtcNow.AddHours(-hoursCount),
-                DateTime.UtcNow, interval));
+            var models = await _serviceBusMetricsRepository.GetMetricsAsync(interval, DateTime.UtcNow.AddHours(-hour), DateTime.UtcNow);
+
+            var viewModel = new ServiceBusViewModel
+            {
+                ServiceBusModels = models.ToList()
+            };
+
+            return viewModel;
         }
 
-        //[HttpGet]
-        //[ResponseType(responseType: typeof(List<ServiceBusViewModel>))]
-        //public IHttpActionResult Get(DateTime startTime, DateTime finishTime)
-        //{
-        //    return Ok(_serviceBusMetricsRepository.GetMetricsResult(startTime: startTime, finishTime: finishTime, interval: 1));
-        //}
 
-        //[HttpGet]
-        //[ResponseType(responseType: typeof(List<ServiceBusViewModel>))]
-        //public IHttpActionResult Get(DateTime startTime, DateTime finishTime, int interval)
-        //{
-        //    return Ok(_serviceBusMetricsRepository.GetMetricsResult(startTime: startTime, finishTime: finishTime, interval: interval));
-        //}
+        [HttpGet]
+        [Route("getBusMetrics")]
+        public async Task<ServiceBusViewModel> GetBusMetrics(int interval, DateTime? startTime = null, DateTime? endTime = null, string metricName = null)
+        {
+            if (startTime == endTime)
+            {
+                startTime = startTime?.AddHours(-1);
+                endTime = endTime?.AddHours(23);
+            }
+
+            var models = await _serviceBusMetricsRepository.GetMetricsAsync(interval, startTime.Value, endTime.Value, metricName);
+
+            var viewModel = new ServiceBusViewModel
+            {
+                ServiceBusModels = models.ToList()
+            };
+
+            return viewModel;
+
+        }
+
     }
 }

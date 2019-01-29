@@ -1,62 +1,62 @@
 <div class="panel-group">
   <div class="panel panel-success">
-      <div class="panel-heading">Settings</div>
-      <div>
-          <span style="margin-left: 5%;">Show data for the last: </span>
-          <div class="btn-group" style="padding: 20px;">
-              <button (click)="changeLastHoursCount(1)" class="btn btn-success" style="width: 100px; margin-left: 10px;">1 hour</button>
-              <button (click)="changeLastHoursCount(6)" class="btn btn-success" style="width: 100px; margin-left: 10px;">6 hours</button>
-              <button (click)="changeLastHoursCount(12)" class="btn btn-success" style="width: 100px; margin-left: 10px;">12 hours</button>
-              <button (click)="changeLastHoursCount(24)" class="btn btn-success" style="width: 100px; margin-left: 10px;">1 day</button>
-              <button (click)="changeLastHoursCount(72)" class="btn btn-success" style="width: 100px; margin-left: 10px;">3 days</button>
-          </div>
+    <div class="panel-heading">Settings</div>
+    <div class="row">
+      <div class="headerBlock col-xs-12">
+        <span class="panel-header-text">Show data for the last: </span>
       </div>
-      <div class="form-group">
-          <div>
-              <p>Select date interval: </p>
-          </div>
-          <div>
-              <my-date-range-picker name="mydaterange" [options]="myDateRangePickerOptions"
-                              [(ngModel)]="dataRange" required></my-date-range-picker>
-          </div>
-          <div>
-              <button class="btn btn-success" (click)="changeDateRange(dataRange)">Submit</button>
-          </div>
+      <div class="btn-group btn-hour-block col-xs-12" style="padding: 20px;">
+        <button  *ngFor="let hourOption of hourOptions" (click)="changeLastHoursCount(hourOption.hoursCount)"
+                [ngClass]="hoursCount === hourOption.hoursCount ? 'btn-primary': 'btn-success'"
+                class="btn">
+          {{hourOption.text}}
+        </button>
       </div>
-      <div class="form-group">
-          <div>
-              <p>Select metics removing interval:</p>
-          </div>
-          <div>
-              <select class="selectpicker show-tick" [(ngModel)]="interval">
-                  <option value="1" selected>1 minute</option>
-                  <option value="5">5 minutes</option>
-                  <option value="15">15 minutes</option>
-                  <option value="30">30 minutes</option>
-                  <option value="60">60 minutes</option>
-              </select>                      
-          </div>
-          <div>
-              <button class="btn btn-success" (click)="changeInterval(interval)">Submit</button>
-          </div>
-      </div>
-      <div class="form-group">
-        <div>
-            <p>Select metric name:</p>
-        </div>
-        <div>
-            <select class="selectpicker show-tick" [(ngModel)]="metricName">
-                <option value="IncomingMessages" selected>Incoming messages</option>
-                <option value="IncomingRequests">Incoming requests</option>
-                <option value="OutgoingMessages">Outgoing messages</option>
-                <option value="SuccessfulRequests">Successful requests</option>
-                <option value="ActiveMessages">Active messages</option>
-            </select>                      
-        </div>
-        <div>
-            <button class="btn btn-success" (click)="changeMetricName(metricName)">Submit</button>
-        </div>
     </div>
+    <div class="row form-group">
+      <div class="col-xs-12 col-sm-3">
+        <p>Select date interval: </p>
+      </div>
+      <div class="col-xs-12 col-sm-9">
+        <my-date-range-picker name="mydaterange" [options]="myDateRangePickerOptions"
+                              [(ngModel)]="dateRange" required></my-date-range-picker>
+      </div>
+    </div>
+    <div class="row form-group">
+      <div class="col-xs-12 col-sm-4"> 
+        <p>Select metics removing interval:</p>
+      </div>
+      <div class="col-xs-12 col-sm-8">
+        <select class="selectpicker show-tick" [(ngModel)]="interval" (onChange)="changeInterval(interval)">
+          <option value="1" selected>1 minute</option>
+          <option value="5">5 minutes</option>
+          <option value="15">15 minutes</option>
+          <option value="30">30 minutes</option>
+          <option value="60">60 minutes</option>
+        </select>
+      </div>
+    </div>
+    <div class="row form-group">
+      <div class="col-xs-12 col-sm-3">
+        <p>Select metric name:</p>
+      </div>
+      <div class="col-xs-12 col-sm-9">
+        <select class="selectpicker show-tick" [(ngModel)]="metricName" (onChange)="changeMetricName(metricName)">
+          <option value="Any" selected>Any</option>
+          <option value="IncomingMessages">Incoming messages</option>
+          <option value="IncomingRequests">Incoming requests</option>
+          <option value="OutgoingMessages">Outgoing messages</option>
+          <option value="SuccessfulRequests">Successful requests</option>
+          <option value="ActiveMessages">Active messages</option>
+        </select>
+      </div>
+    </div>
+    <div class="row text-center">
+      <div class="col-xs-12">
+        <button class="btn btn-primary" (click)="applyFilters()" [disabled]="isBusLoading || isQueuesLoading">Submit</button>
+      </div>
+    </div>
+    <br />
   </div>
 </div>
 

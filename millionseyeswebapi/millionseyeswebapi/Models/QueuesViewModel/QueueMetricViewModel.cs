@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace MillionsEyesWebApi.Models.QueuesViewModel
+namespace MillionsEyesWebApi.Models.QueuesModels
 {
     public class QueueMetricViewModel
     {
