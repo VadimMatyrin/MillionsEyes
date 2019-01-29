@@ -558,3 +558,9 @@ C:\Users\vadym.matyrin\Source\Repos\MillionsEyes\millionseyeswebapi\MillionsEyes
 C:\Users\vadym.matyrin\Source\Repos\MillionsEyes\millionseyeswebapi\MillionsEyesWebApi\obj\Debug\MillionsEyesWebApi.dll
 C:\Users\vadym.matyrin\Source\Repos\MillionsEyes\millionseyeswebapi\MillionsEyesWebApi\obj\Debug\MillionsEyesWebApi.pdb
 C:\Users\vadym.matyrin\Source\Repos\MillionsEyes\millionseyeswebapi\MillionsEyesWebApi\obj\Debug\MillionsEyesWebApi.csprojAssemblyReference.cache
+C:\Users\vadym.matyrin\Source\Repos\MillionsEyes\millionseyeswebapi\MillionsEyesWebApi\bin\Microsoft.Extensions.Configuration.Abstractions.dll
+C:\Users\vadym.matyrin\Source\Repos\MillionsEyes\millionseyeswebapi\MillionsEyesWebApi\bin\Microsoft.Extensions.Configuration.dll
+C:\Users\vadym.matyrin\Source\Repos\MillionsEyes\millionseyeswebapi\MillionsEyesWebApi\bin\Microsoft.Extensions.Primitives.dll
+C:\Users\vadym.matyrin\Source\Repos\MillionsEyes\millionseyeswebapi\MillionsEyesWebApi\bin\Microsoft.Extensions.Configuration.xml
+C:\Users\vadym.matyrin\Source\Repos\MillionsEyes\millionseyeswebapi\MillionsEyesWebApi\bin\Microsoft.Extensions.Configuration.Abstractions.xml
+C:\Users\vadym.matyrin\Source\Repos\MillionsEyes\millionseyeswebapi\MillionsEyesWebApi\bin\Microsoft.Extensions.Primitives.xml

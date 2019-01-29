@@ -112,14 +112,11 @@ namespace MillionsEyesWebApi.Properties {
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute(@"<?xml version=""1.0"" encoding=""utf-16""?>
-<SerializableConnectionString xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance"" xmlns:xsd=""http://www.w3.org/2001/XMLSchema"">
-  <ConnectionString>&lt;?xml version=""1.0"" encoding=""utf-16""?&gt;
-&lt;ArrayOfString xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance"" xmlns:xsd=""http://www.w3.org/2001/XMLSchema""&gt;
-&lt;string&gt;adminservice&lt;/string&gt;
-&lt;string&gt;optimizer&lt;/string&gt;
-&lt;string&gt;puller&lt;/string&gt;
-&lt;string&gt;pusher&lt;/string&gt;&lt;/ArrayOfString&gt;</ConnectionString>
-</SerializableConnectionString>")]
+<ArrayOfString xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance"" xmlns:xsd=""http://www.w3.org/2001/XMLSchema"">
+<string>adminservice</string>
+<string>optimizer</string>
+<string>puller</string><string>pusher</string>
+</ArrayOfString>")]
         public global::System.Collections.Generic.List<System.String> QueueNames {
             get {
                 return ((global::System.Collections.Generic.List<System.String>)(this["QueueNames"]));

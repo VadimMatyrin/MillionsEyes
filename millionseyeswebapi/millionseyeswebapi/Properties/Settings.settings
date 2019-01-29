@@ -36,14 +36,11 @@
     </Setting>
     <Setting Name="QueueNames" Type="System.Collections.Generic.List&lt;System.String&gt;" Scope="Application">
       <Value Profile="(Default)">&lt;?xml version="1.0" encoding="utf-16"?&gt;
-&lt;SerializableConnectionString xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema"&gt;
-  &lt;ConnectionString&gt;&amp;lt;?xml version="1.0" encoding="utf-16"?&amp;gt;
-&amp;lt;ArrayOfString xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema"&amp;gt;
-&amp;lt;string&amp;gt;adminservice&amp;lt;/string&amp;gt;
-&amp;lt;string&amp;gt;optimizer&amp;lt;/string&amp;gt;
-&amp;lt;string&amp;gt;puller&amp;lt;/string&amp;gt;
-&amp;lt;string&amp;gt;pusher&amp;lt;/string&amp;gt;&amp;lt;/ArrayOfString&amp;gt;&lt;/ConnectionString&gt;
-&lt;/SerializableConnectionString&gt;</Value>
+&lt;ArrayOfString xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema"&gt;
+&lt;string&gt;adminservice&lt;/string&gt;
+&lt;string&gt;optimizer&lt;/string&gt;
+&lt;string&gt;puller&lt;/string&gt;&lt;string&gt;pusher&lt;/string&gt;
+&lt;/ArrayOfString&gt;</Value>
     </Setting>
   </Settings>
 </SettingsFile>

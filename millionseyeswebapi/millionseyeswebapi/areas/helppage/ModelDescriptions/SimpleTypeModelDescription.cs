@@ -1,6 +1,0 @@
-namespace MillionsEyesWebApi.Areas.HelpPage.ModelDescriptions
-{
-    public class SimpleTypeModelDescription : ModelDescription
-    {
-    }
-}
