@@ -17,6 +17,7 @@ namespace MillionsEyesWebApi.Helpers
         private readonly string _clientId;
         private readonly string _secret;
         private readonly string _subscriptionId;
+        private MonitorClient _monitorClient;
 
         public string ResourseUri => $"subscriptions/{Default.SubscriptionId}/" +
                                $"resourceGroups/{Default.ResourseGroupName}/" +
@@ -33,12 +34,15 @@ namespace MillionsEyesWebApi.Helpers
 
         public async Task<MonitorClient> GetMonitorClient()
         {
+            if (!(_monitorClient is null))
+                return _monitorClient;
+
             var serviceCreds = await ApplicationTokenProvider.LoginSilentAsync(_tenantId, _clientId, _secret);
             var monitorClient = new MonitorClient(serviceCreds)
             {
                 SubscriptionId = _subscriptionId
             };
-
+            _monitorClient = monitorClient;
             return monitorClient;
         }
 
@@ -61,4 +65,5 @@ namespace MillionsEyesWebApi.Helpers
         }
 
     }
+
 }

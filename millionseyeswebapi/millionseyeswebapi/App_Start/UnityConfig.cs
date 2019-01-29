@@ -49,7 +49,8 @@ namespace MillionsEyesWebApi
         {
             container.RegisterType<IMetricsRepository<ServiceBusModel>, ServiceBusMetricsRepository>();
             container.RegisterType<IMetricsRepository<QueueMetricModel>, QueuesMetricRepository>();
-            container.RegisterType<IAzureClientHelper, AzureClientHelper>(new InjectionConstructor(Default.TenantId, Default.ClientId, Default.Secret, Default.SubscriptionId));
+            var azureClientHelper = new AzureClientHelper(Default.TenantId, Default.ClientId, Default.Secret, Default.SubscriptionId);
+            container.RegisterInstance<IAzureClientHelper>(azureClientHelper);
         }
     }
 }
