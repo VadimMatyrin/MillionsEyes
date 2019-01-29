@@ -20,21 +20,21 @@ namespace MillionsEyesWebApi.Repositories
             _helper = helper;
         }
 
-        public async Task<IEnumerable<ServiceBusModel>> GetMetricsAsync(int interval, DateTime startTime, DateTime entTime, string metricName = null)
+        public async Task<IEnumerable<ServiceBusModel>> GetMetricsAsync(int interval, DateTime startTime, DateTime endTime, string metricName = null)
         {
             var models = new List<ServiceBusModel>();
             if (metricName is null)
             {
-                var tasks = Default.ServiceBusMetricsList.Select(e => GetMetricsViewModels(interval, startTime, entTime, e));
+                var tasks = Default.ServiceBusMetricsList.Select(e => GetMetricsViewModels(interval, startTime, endTime, e));
                 models = (await Task.WhenAll(tasks)).ToList();
             }
             else
-                models.Add(await GetMetricsViewModels(interval, startTime, entTime, metricName));
+                models.Add(await GetMetricsViewModels(interval, startTime, endTime, metricName));
 
             return models;
         }
 
-        private async Task<ServiceBusModel> GetMetricsViewModels(int interval, DateTime startTime, DateTime finishTime, string metricName)
+        private async Task<ServiceBusModel> GetMetricsViewModels(int interval, DateTime startTime, DateTime endTime, string metricName)
         {
             string resourceUri = _helper.ResourseUri;
 
@@ -42,7 +42,7 @@ namespace MillionsEyesWebApi.Repositories
 
             var response = await  monitorClient.Metrics.ListAsync(
                 resourceUri,
-                timespan: $"{startTime:yyyy-MM-ddTHH:mmZ}/{finishTime:yyyy-MM-ddTHH:mmZ}",
+                timespan: $"{startTime:yyyy-MM-ddTHH:mmZ}/{endTime:yyyy-MM-ddTHH:mmZ}",
                 interval: TimeSpan.FromMinutes(interval),
                 metric: metricName,
                 aggregation: Default.Aggregation);

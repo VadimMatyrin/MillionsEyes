@@ -22,11 +22,11 @@ namespace MillionsEyesWebApi.Repository
 
         public async Task<IEnumerable<QueueMetricModel>> GetMetricsAsync(int interval, DateTime startTime, DateTime endTime, string metricName = null)
         {
-            var model = await GetMetricsModels(interval, startTime, endTime, metricName);
-            return model;
+            var models = await GetMetricsModels(interval, startTime, endTime, metricName);
+            return models;
         }
 
-        private async Task<IEnumerable<QueueMetricModel>> GetMetricsModels(int interval, DateTime startTime, DateTime finishTime, string metricName = null)
+        private async Task<IEnumerable<QueueMetricModel>> GetMetricsModels(int interval, DateTime startTime, DateTime endTime, string metricName = null)
         {
             string resourceUri = _helper.ResourseUri;
             
@@ -38,7 +38,7 @@ namespace MillionsEyesWebApi.Repository
             {
                 var response = await monitorClient.Metrics.ListAsync(
                 resourceUri,
-                timespan: $"{startTime:yyyy-MM-ddTHH:mmZ}/{finishTime:yyyy-MM-ddTHH:mmZ}",
+                timespan: $"{startTime:yyyy-MM-ddTHH:mmZ}/{endTime:yyyy-MM-ddTHH:mmZ}",
                 interval: TimeSpan.FromMinutes(interval),
                 metric: metricName,
                 aggregation: Default.Aggregation,
