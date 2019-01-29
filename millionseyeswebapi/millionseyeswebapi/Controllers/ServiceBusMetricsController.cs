@@ -9,7 +9,6 @@ using System.Web.Http.Cors;
 namespace MillionsEyesWebApi.Controllers
 {
     [RoutePrefix("api/serviceBusMetrics")]
-    [EnableCors("http://localhost:4200", "*", "GET, POST, PUT, DELETE, OPTIONS")]
     public class ServiceBusMetricsController : ApiController
     {
         private readonly IMetricsRepository<ServiceBusModel> _serviceBusMetricsRepository;
