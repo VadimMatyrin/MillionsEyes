@@ -38,13 +38,12 @@ export class QueueService {
 
     let queuesMetrics: Array<Metric> = new Array<Metric>();
     let queuesData = response.json().QueueMetrics;
-
+    let now = new Date();
+    let timeZoneOffsetMillis = (now.getTimezoneOffset() * 60000); //60 secs * 1000 mills = millis per minute
     for (let i = 0; i < queuesData.length; i++) {
       let metric: Metric = { metricName: '', points: new Array<Point>() };
 
       metric.metricName = queuesData[i].QueueName;
-      let now = new Date();
-      let timeZoneOffsetMillis = (now.getTimezoneOffset() * 60000);
       for (let j = 0; j < queuesData[i].Metrics.length; j++) {
         metric.points.push({ date: new Date(new Date(queuesData[i].Metrics[j].Time).getTime() - timeZoneOffsetMillis), count: queuesData[i].Metrics[j].Count });
       }

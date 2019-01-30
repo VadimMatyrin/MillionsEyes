@@ -37,13 +37,13 @@ export class MetricsService {
   formServiceBusMetrics(response) {
     let serviceBusMetrics: Array<Metric> = new Array<Metric>();
     let serviceBusData = response.json().ServiceBusModels;
-    
+
+    let now = new Date();
+    let timeZoneOffsetMillis = (now.getTimezoneOffset() * 60000);
     for (let i = 0; i < serviceBusData.length; i++) {
       let metric: Metric = { metricName: "", points: new Array<Point>() };
 
       metric.metricName = serviceBusData[i].MetricName;
-      let now = new Date();
-      let timeZoneOffsetMillis = (now.getTimezoneOffset() * 60000);
       for (let j = 0; j < serviceBusData[i].Metrics.length; j++) {
         metric.points.push({ date: new Date(new Date(serviceBusData[i].Metrics[j].Time).getTime() - timeZoneOffsetMillis), count: serviceBusData[i].Metrics[j].Count });
       }
