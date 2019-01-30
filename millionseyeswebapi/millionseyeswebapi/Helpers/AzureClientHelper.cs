@@ -56,7 +56,7 @@ namespace MillionsEyesWebApi.Helpers
                 new MetricData
                 {
                     Time = d.TimeStamp,
-                    Count = Convert.ToInt64(d.Total)
+                    Count = (long)d.Total
                 }).ToList()).ToList()
             }
             );
