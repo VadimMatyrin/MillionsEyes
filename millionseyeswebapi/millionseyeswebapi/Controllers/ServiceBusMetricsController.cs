@@ -22,7 +22,8 @@ namespace MillionsEyesWebApi.Controllers
         [Route("getBusMetricsForHours")]
         public async Task<ServiceBusViewModel> GetBusMetricsForHours(int hour, int interval)
         {
-            var models = await _serviceBusMetricsRepository.GetMetricsAsync(interval, DateTime.UtcNow.AddHours(-hour), DateTime.UtcNow);
+            var currentDate = DateTime.UtcNow;
+            var models = await _serviceBusMetricsRepository.GetMetricsAsync(interval, currentDate.AddHours(-hour), currentDate);
 
             var viewModel = new ServiceBusViewModel
             {
@@ -35,15 +36,15 @@ namespace MillionsEyesWebApi.Controllers
 
         [HttpGet]
         [Route("getBusMetrics")]
-        public async Task<ServiceBusViewModel> GetBusMetrics(int interval, DateTime? startTime = null, DateTime? endTime = null, string metricName = null)
+        public async Task<ServiceBusViewModel> GetBusMetrics(int interval, DateTime startTime, DateTime endTime, string metricName = null)
         {
             if (startTime == endTime)
             {
-                startTime = startTime?.AddHours(-1);
-                endTime = endTime?.AddHours(23);
+                startTime = startTime.AddHours(-1);
+                endTime = endTime.AddHours(23);
             }
 
-            var models = await _serviceBusMetricsRepository.GetMetricsAsync(interval, startTime.Value, endTime.Value, metricName);
+            var models = await _serviceBusMetricsRepository.GetMetricsAsync(interval, startTime, endTime, metricName);
 
             var viewModel = new ServiceBusViewModel
             {

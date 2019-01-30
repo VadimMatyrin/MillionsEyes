@@ -5,6 +5,7 @@ using MillionsEyesWebApi.Models;
 using MillionsEyesWebApi.Models.QueuesModels;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 using static MillionsEyesWebApi.Properties.Settings;
@@ -20,37 +21,33 @@ namespace MillionsEyesWebApi.Repository
             _helper = helper;
         }
 
-        public async Task<IEnumerable<QueueMetricModel>> GetMetricsAsync(int interval, DateTime startTime, DateTime endTime, string metricName = null)
+        public async Task<IEnumerable<QueueMetricModel>> GetMetricsAsync(int interval, DateTime startTime, DateTime endTime, string metricName)
         {
-            var models = await GetMetricsModels(interval, startTime, endTime, metricName);
+            var models = new List<QueueMetricModel>();
+
+            var tasks = Default.QueueNames.Select(queue => GetMetricsModelAsync(interval, startTime, endTime, metricName, queue));
+            models = (await Task.WhenAll(tasks)).ToList();
+
             return models;
         }
 
-        private async Task<IEnumerable<QueueMetricModel>> GetMetricsModels(int interval, DateTime startTime, DateTime endTime, string metricName = null)
+        private async Task<QueueMetricModel> GetMetricsModelAsync(int interval, DateTime startTime, DateTime endTime, string metricName, string queueName)
         {
-            string resourceUri = _helper.ResourseUri;
-            
-            var models = new List<QueueMetricModel>();
-
             var monitorClient = await _helper.GetMonitorClient();
 
-            foreach (var queue in Default.QueueNames)
-            {
-                var response = await monitorClient.Metrics.ListAsync(
-                resourceUri,
-                timespan: $"{startTime:yyyy-MM-ddTHH:mmZ}/{endTime:yyyy-MM-ddTHH:mmZ}",
-                interval: TimeSpan.FromMinutes(interval),
-                metric: metricName,
-                aggregation: Default.Aggregation,
-                odataQuery: $"EntityName eq '{queue}'"
-                );
+            var response = await monitorClient.Metrics.ListAsync(
+            _helper.ResourseUri,
+            timespan: $"{startTime:yyyy-MM-ddTHH:mmZ}/{endTime:yyyy-MM-ddTHH:mmZ}",
+            interval: TimeSpan.FromMinutes(interval),
+            metric: metricName,
+            aggregation: Default.Aggregation,
+            odataQuery: $"EntityName eq '{queueName}'"
+            );
 
-                var model = _helper.AzureResponseToViewModel<QueueMetricModel>(response);
-                model.QueueName = queue;
-                models.Add(model);
-            }
+            var model = _helper.AzureResponseToModel<QueueMetricModel>(response);
+            model.QueueName = queueName;
 
-            return models;
+            return model;
         }
 
     }

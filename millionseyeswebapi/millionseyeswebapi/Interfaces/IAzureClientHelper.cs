@@ -11,7 +11,7 @@ namespace MillionsEyesWebApi.Interfaces
 
         Task<MonitorClient> GetMonitorClient();
 
-        T AzureResponseToViewModel<T>(Response response) where T : MetricModel, new();
+        T AzureResponseToModel<T>(Response response) where T : MetricModel, new();
 
     }
 }

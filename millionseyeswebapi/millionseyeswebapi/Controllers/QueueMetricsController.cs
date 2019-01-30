@@ -35,14 +35,15 @@ namespace MillionsEyesWebApi.Controllers
 
         [HttpGet]
         [Route("getMetrics")]
-        public async Task<QueueMetricViewModel> GetMetrics(int interval = 1, DateTime? startTime = null, DateTime? endTime = null, string metricName = null)
+        public async Task<QueueMetricViewModel> GetMetrics(int interval, DateTime startTime, DateTime endTime, string metricName = null)
         {
             if (startTime == endTime)
             {
-                startTime = startTime?.AddHours(-1);
-                endTime = endTime?.AddHours(23);
+                startTime = startTime.AddHours(-1);
+                endTime = endTime.AddHours(23);
             }
-            var models = await _queuesMetricRepository.GetMetricsAsync(interval, startTime.Value, endTime.Value, metricName);
+
+            var models = await _queuesMetricRepository.GetMetricsAsync(interval, startTime, endTime, metricName);
 
             var viewModel = new QueueMetricViewModel
             {

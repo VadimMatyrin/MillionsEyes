@@ -46,7 +46,7 @@ namespace MillionsEyesWebApi.Helpers
             return monitorClient;
         }
 
-        public T AzureResponseToViewModel<T>(Response response) where T : MetricModel, new()
+        public T AzureResponseToModel<T>(Response response) where T : MetricModel, new()
         {
             var model = response.Value.Select(r =>
             new T
