@@ -48,18 +48,24 @@ namespace MillionsEyesWebApi.Helpers
 
         public T AzureResponseToModel<T>(Response response) where T : MetricModel, new()
         {
+            if (response is null)
+                throw new ArgumentNullException(nameof(response));
+
+            if (response.Value is null)
+                throw new ArgumentNullException(nameof(response.Value));
+
             var model = response.Value.Select(r =>
             new T
             {
-                MetricName = r.Name.Value,
-                Metrics = r.Timeseries.SelectMany(rt => rt.Data.Select(d =>
+                MetricName = r.Name?.Value ?? throw new ArgumentNullException(nameof(r.Name)),
+                Metrics = r.Timeseries?.SelectMany(rt => rt.Data.Select(d =>
                 new MetricData
                 {
                     Time = d.TimeStamp,
                     Count = (long)d.Total
-                }).ToList()).ToList()
-            }
-            );
+                }).ToList()).ToList() ?? throw new ArgumentNullException(nameof(r.Timeseries))
+
+            });
 
             return model.FirstOrDefault();
         }
