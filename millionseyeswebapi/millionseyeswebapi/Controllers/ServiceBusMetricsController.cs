@@ -22,8 +22,8 @@ namespace MillionsEyesWebApi.Controllers
         [Route("getBusMetricsForHours")]
         public async Task<ServiceBusViewModel> GetBusMetricsForHours(int hour, int interval)
         {
-            var currentDate = DateTime.UtcNow;
-            var models = await _serviceBusMetricsRepository.GetMetricsAsync(interval, currentDate.AddHours(-hour), currentDate);
+            var currentTime = DateTime.UtcNow;
+            var models = await _serviceBusMetricsRepository.GetMetricsAsync(interval, currentTime.AddHours(-hour), currentTime);
 
             var viewModel = new ServiceBusViewModel
             {
@@ -36,15 +36,22 @@ namespace MillionsEyesWebApi.Controllers
 
         [HttpGet]
         [Route("getBusMetrics")]
-        public async Task<ServiceBusViewModel> GetBusMetrics(int interval, DateTime startTime, DateTime endTime, string metricName = null)
+        public async Task<ServiceBusViewModel> GetBusMetrics(int interval, DateTime? startTime, DateTime? endTime, string metricName = null)
         {
-            if (startTime == endTime)
+            if (startTime is null || endTime is null)
             {
-                startTime = startTime.AddHours(-1);
-                endTime = endTime.AddHours(23);
+                var currentTime = DateTime.UtcNow;
+                startTime = currentTime;
+                endTime = currentTime;
             }
 
-            var models = await _serviceBusMetricsRepository.GetMetricsAsync(interval, startTime, endTime, metricName);
+            if (startTime.Value == endTime.Value)
+            {
+                startTime = startTime.Value.AddHours(-1);
+                endTime = endTime.Value.AddHours(23);
+            }
+
+            var models = await _serviceBusMetricsRepository.GetMetricsAsync(interval, startTime.Value, endTime.Value, metricName);
 
             var viewModel = new ServiceBusViewModel
             {
@@ -52,7 +59,6 @@ namespace MillionsEyesWebApi.Controllers
             };
 
             return viewModel;
-
         }
 
     }

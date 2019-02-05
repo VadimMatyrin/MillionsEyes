@@ -22,8 +22,8 @@ namespace MillionsEyesWebApi.Controllers
         [Route("getMetricsForHours")]
         public async Task<QueueMetricViewModel> GetMetricsForHours(int hour, int interval)
         {
-            var currentDate = DateTime.UtcNow;
-            var models = await _queuesMetricRepository.GetMetricsAsync(interval, currentDate.AddHours(-hour), currentDate);
+            var currentTime = DateTime.UtcNow;
+            var models = await _queuesMetricRepository.GetMetricsAsync(interval, currentTime.AddHours(-hour), currentTime);
 
             var viewModel = new QueueMetricViewModel
             {
@@ -35,15 +35,22 @@ namespace MillionsEyesWebApi.Controllers
 
         [HttpGet]
         [Route("getMetrics")]
-        public async Task<QueueMetricViewModel> GetMetrics(int interval, DateTime startTime, DateTime endTime, string metricName = null)
+        public async Task<QueueMetricViewModel> GetMetrics(int interval, DateTime? startTime, DateTime? endTime, string metricName = null)
         {
-            if (startTime == endTime)
+            if (startTime is null || endTime is null)
             {
-                startTime = startTime.AddHours(-1);
-                endTime = endTime.AddHours(23);
+                var currentTime = DateTime.UtcNow;
+                startTime = currentTime;
+                endTime = currentTime;
             }
 
-            var models = await _queuesMetricRepository.GetMetricsAsync(interval, startTime, endTime, metricName);
+            if (startTime == endTime)
+            {
+                startTime = startTime.Value.AddHours(-1);
+                endTime = endTime.Value.AddHours(23);
+            }
+
+            var models = await _queuesMetricRepository.GetMetricsAsync(interval, startTime.Value, endTime.Value, metricName);
 
             var viewModel = new QueueMetricViewModel
             {
