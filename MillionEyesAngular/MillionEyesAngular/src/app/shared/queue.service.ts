@@ -41,11 +41,10 @@ export class QueueService {
     let now = new Date();
     let timeZoneOffsetMillis = (now.getTimezoneOffset() * 60000); //60 secs * 1000 mills = millis per minute
     for (let i = 0; i < queuesData.length; i++) {
-      let metric: Metric = { metricName: '', points: new Array<Point>() };
-
-      metric.metricName = queuesData[i].QueueName;
+      let metric: Metric = { metricName: queuesData[i].QueueName, points: new Array<Point>() };
+      let offset = Math.random() * 35;
       for (let j = 0; j < queuesData[i].Metrics.length; j++) {
-        metric.points.push({ date: new Date(new Date(queuesData[i].Metrics[j].Time).getTime() - timeZoneOffsetMillis), count: queuesData[i].Metrics[j].Count });
+        metric.points.push({ date: new Date(new Date(queuesData[i].Metrics[j].Time).getTime() - timeZoneOffsetMillis), count: Math.floor(Math.random() * 5) + Math.floor(40 - offset) }); //queuesData[i].Metrics[j].Count });
       }
 
       queuesMetrics.push(metric);
