@@ -5,7 +5,7 @@ using System.Web;
 
 namespace MillionsEyesWebApi.Models.MetricModels
 {
-    public class MetricModel
+    public abstract class MetricModel
     {
         public string MetricName { get; set; }
 
