@@ -2,9 +2,11 @@
 using MillionsEyesWebApi.Models.QueuesModels;
 using System;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 using System.Web.Http;
-using System.Web.Http.Cors;
+
+using static MillionsEyesWebApi.Properties.Settings;
 
 namespace MillionsEyesWebApi.Controllers
 {
@@ -22,6 +24,9 @@ namespace MillionsEyesWebApi.Controllers
         [Route("getMetricsForHours")]
         public async Task<QueueMetricViewModel> GetMetricsForHours(int hour, int interval)
         {
+            if (hour <= 0 || interval <= 0)
+                throw new HttpResponseException(HttpStatusCode.BadRequest);
+
             var currentTime = DateTime.UtcNow;
             var models = await _queuesMetricRepository.GetMetricsAsync(interval, currentTime.AddHours(-hour), currentTime);
 
@@ -37,18 +42,14 @@ namespace MillionsEyesWebApi.Controllers
         [Route("getMetrics")]
         public async Task<QueueMetricViewModel> GetMetrics(int interval, DateTime? startTime, DateTime? endTime, string metricName = null)
         {
-            if (startTime is null || endTime is null)
-            {
-                var currentTime = DateTime.UtcNow;
-                startTime = currentTime;
-                endTime = currentTime;
-            }
+            if (startTime is null || endTime is null || interval <= 0)
+                throw new HttpResponseException(HttpStatusCode.BadRequest);
 
-            if (startTime == endTime)
-            {
-                startTime = startTime.Value.AddHours(-1);
-                endTime = endTime.Value.AddHours(23);
-            }
+            if (!(metricName is null) && !Default.ServiceBusMetricsList.Contains(metricName))
+                throw new HttpResponseException(HttpStatusCode.BadRequest);
+
+            if (startTime.Value == endTime.Value)
+                endTime = endTime.Value.AddHours(24);
 
             var models = await _queuesMetricRepository.GetMetricsAsync(interval, startTime.Value, endTime.Value, metricName);
 
