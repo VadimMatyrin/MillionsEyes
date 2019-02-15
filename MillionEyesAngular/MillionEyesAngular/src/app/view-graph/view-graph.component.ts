@@ -1,14 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { MetricsService } from '../shared/metrics.service';
 import { Metric } from '../shared/metric.model';
-import { IMyDrpOptions, IMyDateRange } from 'mydaterangepicker';
+import { IMyDrpOptions } from 'mydaterangepicker';
 import { IMyDateRangeModel } from 'mydaterangepicker';
-import * as moment from 'moment';
-import Highcharts = require('highcharts');
+import * as Highcharts from 'highcharts';
 import { QueueService } from '../shared/queue.service';
-import { getLocaleDateFormat } from '@angular/common';
 import { HourOption } from '../shared/hourOption';
-import { environment } from "../../environments/environment.prod";
 import { options } from '../config/config';
 
 @Component({

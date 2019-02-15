@@ -2,12 +2,10 @@ import { Injectable } from "@angular/core"
 import { Http } from "@angular/http";
 import { Metric } from "./metric.model";
 import { Observable } from "rxjs/Observable";
-import * as moment from 'moment';
 
 import "rxjs/add/operator/map"
 import { Point } from "./point.model";
 import { environment } from "../../environments/environment";
-import { encode } from "punycode";
 
 @Injectable()
 export class MetricsService {
