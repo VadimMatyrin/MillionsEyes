@@ -13,36 +13,19 @@ namespace MillionsEyesWebApi.Helpers
 {
     public class AzureClientHelper : IAzureClientHelper
     {
-        private readonly string _tenantId;
-        private readonly string _clientId;
-        private readonly string _secret;
-        private readonly string _subscriptionId;
-        private MonitorClient _monitorClient;
-
         public string ResourseUri => $"subscriptions/{Default.SubscriptionId}/" +
                                $"resourceGroups/{Default.ResourseGroupName}/" +
                                $"providers/{Default.Provider}/" +
                                $"namespaces/{Default.ServiceBusName}";
 
-        public AzureClientHelper(string tenantId, string clientId, string secret, string subscriptionId)
-        {
-            _tenantId = tenantId;
-            _clientId = clientId;
-            _secret = secret;
-            _subscriptionId = subscriptionId;
-        }
-
         public async Task<MonitorClient> GetMonitorClient()
         {
-            if (!(_monitorClient is null))
-                return _monitorClient;
-
-            var serviceCreds = await ApplicationTokenProvider.LoginSilentAsync(_tenantId, _clientId, _secret);
+            var serviceCreds = await ApplicationTokenProvider.LoginSilentAsync(Default.TenantId, Default.ClientId, Default.Secret);
             var monitorClient = new MonitorClient(serviceCreds)
             {
-                SubscriptionId = _subscriptionId
+                SubscriptionId = Default.SubscriptionId
             };
-            _monitorClient = monitorClient;
+
             return monitorClient;
         }
 
