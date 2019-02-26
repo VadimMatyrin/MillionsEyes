@@ -45,7 +45,7 @@ namespace MillionsEyesWebApi.Helpers
                 new MetricData
                 {
                     Time = d.TimeStamp,
-                    Count = (long)d.Total
+                    Count = (long)(d.Total ?? 0)
                 }).ToList()).ToList() ?? throw new ArgumentNullException(nameof(r.Timeseries))
 
             });

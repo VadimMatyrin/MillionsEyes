@@ -83,7 +83,7 @@ namespace MillionsEyesWebApi.Properties {
 <ArrayOfString xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance"" xmlns:xsd=""http://www.w3.org/2001/XMLSchema"">
 <string>IncomingMessages</string>
 <string>OutgoingMessages</string>
-<string>IncomingRequests</string><string>SuccessfulRequests</string><string>ActiveMessages</string>
+<string>IncomingRequests</string><string>SuccessfulRequests</string>
 </ArrayOfString>")]
         public global::System.Collections.Generic.List<System.String> ServiceBusMetricsList {
             get {

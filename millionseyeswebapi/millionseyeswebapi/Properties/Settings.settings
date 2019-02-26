@@ -25,7 +25,7 @@
 &lt;ArrayOfString xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema"&gt;
 &lt;string&gt;IncomingMessages&lt;/string&gt;
 &lt;string&gt;OutgoingMessages&lt;/string&gt;
-&lt;string&gt;IncomingRequests&lt;/string&gt;&lt;string&gt;SuccessfulRequests&lt;/string&gt;&lt;string&gt;ActiveMessages&lt;/string&gt;
+&lt;string&gt;IncomingRequests&lt;/string&gt;&lt;string&gt;SuccessfulRequests&lt;/string&gt;
 &lt;/ArrayOfString&gt;</Value>
     </Setting>
     <Setting Name="Provider" Type="System.String" Scope="Application">
